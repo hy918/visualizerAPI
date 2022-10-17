@@ -60,7 +60,6 @@ class Home extends React.Component {
 							<Route path="/list1" element={<List1 />} />
 							<Route path="/list2" element={<List2 />} />
 						</Routes>
-						{/* hhhhh */}
 					</Content>
 				</Layout>
 			</Layout>
