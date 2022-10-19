@@ -5,10 +5,7 @@ import _ from 'lodash';
 import { message } from 'antd';
 import Cookie from 'js-cookie';
 
-import { getParam, myStorage } from '@/utils/function';
-import { mySession } from '@/utils/function';
-
-import paramsToQueryString from './paramsToQueryString';
+import { paramsToQueryString } from './paramsToQueryString.js';
 
 // 请求列表
 const requestList = [];
@@ -42,23 +39,10 @@ service.interceptors.request.use(
 			requestList.push(request);
 		}
 
-		// 修改 header 信息 token， 这些信息来自cookie
-		const sessionid = Cookie.get('sessionid');
-		const uuid = Cookie.get('uuid');
-
 		config.headers['Content-Type'] = 'application/json; charset=utf-8';
 
 		sessionid && (config.headers.sessionid = sessionid);
 		uuid && (config.headers.uuid = uuid);
-
-		if (
-			mySession.get('sessionid') &&
-			Cookie.get('sessionid') &&
-			mySession.get('sessionid') !== Cookie.get('sessionid')
-		) {
-			mySession.set('sessionid', Cookie.get('sessionid'));
-			window.location.reload();
-		}
 
 		// 上传文件配置，必传 type：file
 		if (config?.data?.type === 'file') {
@@ -123,11 +107,7 @@ service.interceptors.response.use(
 		const { status, data: { Code, ErrorCode, code } = {} } = error.response;
 		const curCode = `${Code || ErrorCode || code || ''}`;
 
-		if (status === 401) {
-			Cookie.remove('sessionid');
-			Cookie.remove('uuid');
-			myStorage.remove('userInfo');
-		} else if (status === 500 || status === 403) {
+		if (status === 500 || status === 403) {
 			message.error(error && (error.message || error.Message));
 			return error;
 		}
