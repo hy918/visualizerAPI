@@ -128,6 +128,7 @@ const List2 = () => {
 				className="tableRoot"
 				columns={columns}
 				dataSource={tableData}
+				rowKey={(record) => record?.id}
 				pagination={{
 					current: currentPage,
 					pageSize: 2,
