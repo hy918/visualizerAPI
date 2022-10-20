@@ -1,5 +1,5 @@
 import { API } from '../index';
-import apiServerice from '@/axios';
+import apiServerice from '@/axios/axios.js';
 
 /**
  * 获取功能api列表
@@ -12,7 +12,7 @@ const basicApiList = async (data) => {
  * 获取功能api基础信息
  */
 const basicApiInfo = async (id) => {
-	return await apiServerice.axiosGetData(`${API.basicApiInfo}/${id}`);
+	return await apiServerice.axiosGet(`${API.basicApiInfo}/${id}`);
 };
 
 /**
@@ -39,8 +39,11 @@ const basicApiAdd = async (data) => {
 /**
  * 获取功能api列表对应基础api
  */
-const basicApiBaseList = async (id) => {
-	return await apiServerice.axiosGetData(`${API.basicApiBaseList}/${id}`);
+const basicApiBaseList = async (id, data) => {
+	return await apiServerice.axiosGetData(
+		`${API.basicApiBaseList}/${id}`,
+		data
+	);
 };
 
 /**
@@ -50,7 +53,8 @@ const basicApiBaseUpdate = async (data) => {
 	return await apiServerice.axiosPost(API.basicApiBaseUpdate, data);
 };
 
-export {
+// eslint-disable-next-line import/no-anonymous-default-export
+export default {
 	basicApiList,
 	basicApiInfo,
 	basicApiEdit,

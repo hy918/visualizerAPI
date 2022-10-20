@@ -1,25 +1,22 @@
 import _ from 'lodash';
 
-const objectToString = (data) => {
-	const type = Object.prototype.toString.call(data);
-
-	return type === '[object  Object]' ? JSON.stringify(data) : data;
+const objectToStringify = (data) => {
+	return data.constructor === Object ? JSON.stringify(data) : data;
 };
 
 const paramsToQueryString = (params) => {
-	const type = Object.prototype.toString.call(params);
-	if (type !== '[object  Object]') return params;
+	if (params.constructor !== Object) return params;
 
 	const keys = _.keys(params);
 
-	if (keys.length === 0) return;
+	if (keys.length === 0) return '';
 
-	const queryString = _.map(keys, (key) => {
-		const value = objectToString(params[key]);
+	const query = _.map(keys, (key) => {
+		const value = objectToStringify(params[key]);
 		return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
 	}).join('&');
 
-	return `?${queryString}`;
+	return `?${query}`;
 };
 
-export { paramsToQueryString };
+export default paramsToQueryString;

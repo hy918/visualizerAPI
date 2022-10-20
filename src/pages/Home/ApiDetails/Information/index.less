@@ -1,54 +1,69 @@
-.informationRoot{
-  width: 100%;
+.informationRoot {
+  width: calc(100% - 48px);
   margin: 24px;
   padding: 24px 24px 0;
-  height: 200px;
+  height: 220px;
   border: 1px solid #f0f0f0;
   background: #fff;
-  
-  
-  .name{
+
+
+  .name {
     font-size: 20px;
   }
 
-  .information-content{
+  .information-content {
     width: 100%;
     margin-top: 20px;
     display: flex;
     justify-content: space-between;
     font-size: 16px;
 
-    .left{
-      width: 25%;
-      padding: 0px 12px;
-    } 
-  
-    .right{
-      width: 25%;
+    .left {
+      width: 30%;
       padding: 0px 12px;
     }
 
-    .item{
+    .right {
+      width: 30%;
+      padding: 0px 12px;
+    }
+
+    .item {
       height: 34px;
       line-height: 22px;
       display: flex;
       justify-content: space-between;
 
-      .hide-img{
+      .hide-img {
         display: none;
       }
 
-      &:hover{
-        .show{
-          display: inline-block;
-          width: 16px;
-          height: 16px;
+      .btn-box {
 
-          margin-right: 0px;
+        .ok-btn {
+          margin-right: 8px;
         }
       }
 
+      .text-area {
+        height: 70px;
+        width: 438px;
+        margin-bottom: 8px;
+      }
+
+      .input {
+        width: 220px;
+      }
+
+      &:hover {
+        .show {
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+          margin-right: 0px;
+          cursor: pointer;
+        }
+      }
     }
   }
- 
 }

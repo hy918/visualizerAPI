@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { message } from 'antd';
 import Cookie from 'js-cookie';
 
-import { paramsToQueryString } from './paramsToQueryString.js';
+import paramsToQueryString from './paramsToQueryString.js';
 
 // 请求列表
 const requestList = [];
@@ -40,9 +40,6 @@ service.interceptors.request.use(
 		}
 
 		config.headers['Content-Type'] = 'application/json; charset=utf-8';
-
-		sessionid && (config.headers.sessionid = sessionid);
-		uuid && (config.headers.uuid = uuid);
 
 		// 上传文件配置，必传 type：file
 		if (config?.data?.type === 'file') {
@@ -111,6 +108,7 @@ service.interceptors.response.use(
 			message.error(error && (error.message || error.Message));
 			return error;
 		}
+		return err;
 	}
 );
 

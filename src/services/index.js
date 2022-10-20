@@ -1,4 +1,4 @@
-const baseApi = 'api/v2';
+const baseApi = '/v2';
 const API = {
 	// 功能api管理
 	funcApisList: `${baseApi}/funcapis`,

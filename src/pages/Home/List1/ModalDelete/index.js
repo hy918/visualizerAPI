@@ -13,8 +13,11 @@ const ModalDelete = (props) => {
 			if (res.code === 10200) {
 				message.success('删除成功');
 				getTableData({});
+				handleCancel();
 			}
-		} catch (res) {}
+		} catch (res) {
+			message.error('失败');
+		}
 	};
 	// 取消
 	const onCancel = () => handleCancel();
@@ -24,6 +27,7 @@ const ModalDelete = (props) => {
 			wrapClassName="delmodalRoot"
 			visible={isModalOpen}
 			footer={null}
+			onCancel={() => onCancel()}
 		>
 			<div className="modal-content">
 				<div>确定要删除该删除功能API吗？</div>

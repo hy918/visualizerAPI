@@ -5,14 +5,14 @@ import apiServerice from '@/axios/axios.js';
  * 获取功能api列表
  */
 const funcApisList = async (data) => {
-	return await apiServerice.axiosGetData(API.funcApiBaseList, data);
+	return await apiServerice.axiosGetData(API.funcApisList, data);
 };
 
 /**
  * 获取功能api基础信息
  */
 const funcApiInfo = async (id) => {
-	return await apiServerice.axiosGetData(`${API.funcApiInfo}/${id}`);
+	return await apiServerice.axiosGet(`${API.funcApiInfo}/${id}`);
 };
 
 /**
@@ -39,8 +39,11 @@ const funcApiAdd = async (data) => {
 /**
  * 获取功能api列表对应基础api
  */
-const funcApiBaseList = async (id) => {
-	return await apiServerice.axiosGetData(`${API.funcApiBaseList}/${id}`);
+const funcApiBaseList = async (id, data) => {
+	return await apiServerice.axiosGetData(
+		`${API.funcApiBaseList}/${id}`,
+		data
+	);
 };
 
 /**

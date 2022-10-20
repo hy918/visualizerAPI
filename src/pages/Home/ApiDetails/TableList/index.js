@@ -1,53 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Select, Table, Divider, Tag } from 'antd';
+
+import funcApiServer from '@/services/functionApi';
+import basicApiServer from '@/services/basicApi';
+
+import { getParam } from '@/utils/function';
 
 import './index.less';
 const TableList = () => {
-	const [tableData, setTableData] = useState([
-		{
-			id: '1',
-			name: 'John Brown',
-			age: 32,
-			type: 'get',
-			fun: 'get',
-			address: 'New York No. 1 Lake Park',
-			tags: ['nice', 'developer'],
-		},
-		{
-			id: '2',
-			name: 'Jim Green',
-			age: 42,
-			fun: 'get',
-			type: 'get',
-			address: 'London No. 1 Lake Park',
-			tags: ['loser'],
-		},
-		{
-			id: '3',
-			name: 'Joe Black',
-			age: 32,
-			type: 'get',
-			fun: 'get',
-			address: 'Sidney No. 1 Lake Park',
-			tags: ['cool', 'teacher'],
-		},
-	]);
+	const [type, setType] = useState('function'); // 区分功能api合基本api
+	const [tableData, setTableData] = useState([]);
 
-	const columns = [
-		{
-			title: 'Name',
-			dataIndex: 'name',
-			key: 'name',
-		},
-		{
-			title: 'Age',
-			dataIndex: 'age',
-			key: 'age',
-		},
+	const funColumns = [
 		{
 			title: '方法',
-			dataIndex: 'fun',
-			key: 'fun',
+			dataIndex: 'method',
+			key: 'method',
+		},
+		{
+			title: 'URL',
+			dataIndex: 'url',
+			key: 'url',
+		},
+		{
+			title: '父级名称',
+			dataIndex: 'father_name',
+			key: 'father_name',
 		},
 		{
 			title: '类型',
@@ -57,42 +35,156 @@ const TableList = () => {
 			},
 		},
 		{
-			title: 'Address',
-			dataIndex: 'address',
-			key: 'address',
+			title: '创建时间',
+			dataIndex: 'created_time',
+			key: 'created_time',
 		},
 		{
-			title: 'Action',
+			title: '操作',
 			dataIndex: '',
 			key: 'x',
 			render: (text, record) => {
 				return (
 					<div>
-						<span className="tool-text">移除关联</span>
+						<span
+							className="tool-text"
+							onClick={() => relation(record.id, false)}
+						>
+							移除关联
+						</span>
 						<Divider type="vertical" />
-						<span className="tool-text">增加关联</span>
+						<span
+							className="tool-text"
+							onClick={() => relation(record.id, true)}
+						>
+							增加关联
+						</span>
 					</div>
 				);
 			},
 		},
 	];
 
+	const basiColumns = [
+		{
+			title: '基础API名字',
+			dataIndex: 'name',
+			key: 'name',
+		},
+		{
+			title: '描述',
+			dataIndex: 'description',
+			key: 'description',
+		},
+		{
+			title: '父级名称',
+			dataIndex: 'father_name',
+			key: 'father_name',
+		},
+		{
+			title: '类型',
+			dataIndex: 'type',
+			render: (text) => {
+				return <Tag color="green">{text}</Tag>;
+			},
+		},
+		{
+			title: '创建时间',
+			dataIndex: 'created_time',
+			key: 'created_time',
+		},
+		{
+			title: '操作',
+			dataIndex: '',
+			key: 'x',
+			render: (text, record) => {
+				return (
+					<div>
+						<span
+							className="tool-text"
+							onClick={() => relation(record.id, false)}
+						>
+							移除关联
+						</span>
+						<Divider type="vertical" />
+						<span
+							className="tool-text"
+							onClick={() => relation(record.id, true)}
+						>
+							增加关联
+						</span>
+					</div>
+				);
+			},
+		},
+	];
+
+	useEffect(() => {
+		getTableData({});
+	}, []);
+
+	// 获取列表数据
+	const getTableData = async ({ selectTpe = true }) => {
+		const id = getParam('id');
+		const type = getParam('type');
+		setType(type);
+
+		try {
+			let res = {};
+			if (type === 'function') {
+				res = await funcApiServer.funcApiBaseList(id, {
+					has_relation: selectTpe,
+				});
+			} else {
+				res = await basicApiServer.basicApiBaseList(id, {
+					has_relation: selectTpe,
+				});
+			}
+			if (res.code === 10200) {
+				setTableData(res?.result?.data);
+			}
+		} catch (err) {}
+	};
+
+	// 处理基础、功能api的关联关系
+	const relation = async (id, relation_operate) => {
+		const urlid = getParam('id');
+		try {
+			const data = {
+				func_id: type === 'function' ? urlid : id,
+				base_id: type === 'basic' ? urlid : id,
+				relation_operate,
+			};
+
+			const res = await funcApiServer.funcApiBaseUpdate(data);
+			if (res?.code === 10200) {
+				setTableData(res?.result?.data);
+			}
+		} catch (err) {}
+	};
+
 	return (
 		<div className="tableListRoot">
 			<div>
 				<span>选择类型</span>
-				<Select defaultValue="all" className="select-text">
-					<Select.Option value="all">全部</Select.Option>
-					<Select.Option value="not">未关联</Select.Option>
-					<Select.Option value="associated">已关联</Select.Option>
+				<Select
+					defaultValue="true"
+					className="select-text"
+					onChange={(e) => {
+						getTableData({ selectTpe: e });
+					}}
+				>
+					<Select.Option value="false">未关联</Select.Option>
+					<Select.Option value="true">已关联</Select.Option>
 				</Select>
 			</div>
 			<Table
-				columns={columns}
+				columns={type === 'function' ? funColumns : basiColumns}
 				dataSource={tableData}
 				className="table-box"
 				rowKey={(record) => record?.id}
 				bordered
+				scroll={{ y: 800 }}
 			/>
 		</div>
 	);

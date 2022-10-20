@@ -1,12 +1,25 @@
-import { Button, Modal } from 'antd';
+import { Button, Modal, message } from 'antd';
 import React from 'react';
+
+import basicApiServer from '@/services/basicApi';
 
 import './index.less';
 
 const ModalDelete = (props) => {
-	const { isModalOpen, handleCancel } = props;
+	const { isModalOpen, handleCancel, getTableData, id } = props;
 	// 删除
-	const handleOk = () => {};
+	const handleOk = async () => {
+		try {
+			const res = await basicApiServer.basicApiDelete(id);
+			if (res.code === 10200) {
+				message.success('删除成功');
+				getTableData({});
+				handleCancel();
+			}
+		} catch (res) {
+			message.error('失败');
+		}
+	};
 	// 取消
 	const onCancel = () => handleCancel();
 	return (

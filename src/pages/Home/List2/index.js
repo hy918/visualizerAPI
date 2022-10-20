@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Divider, Button, Input, Tag } from 'antd';
+import { Table, Divider, Button, Input, Tag, message } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
+
+import basicApiServer from '@/services/basicApi';
 
 import ModalDelete from './ModalDelete';
 import ModalCreate from './ModalCreate';
 
 import './index.less';
-
+import { Link } from 'react-router-dom';
+const SIZE = 10;
 const List2 = () => {
 	const [delModalVisible, setDelModalVisible] = useState(false); // 控制删除弹窗
 	const [delId, setDelId] = useState(0); // 删除的记录id
 	const [currentPage, setCurrentPage] = useState(1);
+	const [total, setTotal] = useState(0); // 总数
 	const [searchValue, setSearchValue] = useState(''); // 搜索的值
 	const [addModalVisible, setAddModalVisible] = useState(false); // 控制添加弹窗
 	const [tableData, setTableData] = useState([
@@ -44,8 +48,13 @@ const List2 = () => {
 	]);
 
 	useEffect(() => {
-		getTableData({ currentPage, searchValue });
-	}, [currentPage, searchValue]);
+		getTableData({});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+	useEffect(() => {
+		getTableData({ currentPage });
+	}, [currentPage]);
 
 	// 关闭删除弹窗
 	const closeDelModal = () => setDelModalVisible(false);
@@ -53,7 +62,23 @@ const List2 = () => {
 	const closeAddModal = () => setAddModalVisible(false);
 
 	// 获取列表数据
-	const getTableData = ({ currentPage = 1, searchValue = '' }) => {};
+	const getTableData = async ({ currentPage = 1, searchValue = '' }) => {
+		const data = {
+			page: currentPage,
+			size: SIZE,
+			keyword: searchValue,
+		};
+		try {
+			const res = await basicApiServer.basicApiList(data);
+			if (res?.code === 10200 && res?.result) {
+				setTableData(res?.result?.data);
+				setTotal(res?.result.total);
+				setCurrentPage(currentPage);
+			}
+		} catch (err) {
+			message.error('获取数据失败');
+		}
+	};
 
 	// 换页
 	const pageChange = (page) => {
@@ -62,40 +87,50 @@ const List2 = () => {
 	};
 	const columns = [
 		{
-			title: 'Name',
-			dataIndex: 'name',
-			key: 'name',
-		},
-		{
-			title: 'Age',
-			dataIndex: 'age',
-			key: 'age',
-		},
-		{
 			title: '方法',
-			dataIndex: 'fun',
-			key: 'fun',
+			dataIndex: 'method',
+			key: 'method',
+		},
+		{
+			title: 'URL',
+			dataIndex: 'url',
+			key: 'url',
 		},
 		{
 			title: '类型',
 			dataIndex: 'type',
+			key: 'type',
 			render: (text) => {
 				return <Tag color="green">{text}</Tag>;
 			},
 		},
 		{
-			title: 'Address',
-			dataIndex: 'address',
-			key: 'address',
+			title: '父级名字',
+			dataIndex: 'father_name',
+			key: 'father_name',
 		},
 		{
-			title: 'Action',
+			title: '父级地址',
+			dataIndex: 'father_path',
+			key: 'father_paht',
+		},
+		{
+			title: '创建时间',
+			dataIndex: 'created_time',
+			key: 'created_time',
+		},
+		{
+			title: '操作',
 			dataIndex: '',
 			key: 'x',
 			render: (text, record) => {
+				const url = `/home/apiDetail?type=basic&id=${record.id}`;
+
 				return (
 					<div>
-						<span className="tool-text">详情</span>
+						<span className="tool-text">
+							<Link to={url}>详情</Link>
+						</span>
 						<Divider type="vertical" />
 						<span
 							className="tool-text"
@@ -121,15 +156,33 @@ const List2 = () => {
 				<Button type="primary" onClick={() => setAddModalVisible(true)}>
 					添加基础api
 				</Button>
-				<div>
+				<div className="search-box">
 					<Input
 						placeholder="请输入搜索的关键字"
 						suffix={<SearchOutlined />}
 						onChange={(e) => {
 							setSearchValue(e?.target?.value);
 						}}
+						onPressEnter={() => {
+							getTableData({
+								currentPage,
+								searchValue,
+							});
+						}}
 						allowClear
 					/>
+					<Button
+						type="primary"
+						className="search-btn"
+						onClick={() => {
+							getTableData({
+								currentPage,
+								searchValue,
+							});
+						}}
+					>
+						搜索
+					</Button>
 				</div>
 			</div>
 			<Table
@@ -140,8 +193,8 @@ const List2 = () => {
 				rowKey={(record) => record?.id}
 				pagination={{
 					current: currentPage,
-					pageSize: 2,
-					total: tableData.length,
+					pageSize: SIZE,
+					total: total,
 					onChange: pageChange,
 				}}
 			/>
@@ -150,6 +203,7 @@ const List2 = () => {
 				isModalOpen={delModalVisible}
 				id={delId}
 				handleCancel={closeDelModal}
+				getTableData={getTableData}
 			/>
 
 			<ModalCreate

@@ -54,7 +54,6 @@ class Home extends React.Component {
 							mode="inline"
 							selectedKeys={[menuKey]}
 							onClick={(e) => {
-								console.log(123);
 								this.setState({
 									menuKey: e.key,
 								});

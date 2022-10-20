@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Table, Divider, Button, Input, Tag } from 'antd';
+import { Table, Divider, Button, Input, Tag, message } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
 import funcApiServer from '@/services/functionApi';
@@ -66,19 +66,21 @@ const List1 = () => {
 			if (res?.code === 10200 && res?.result) {
 				setTableData(res?.result?.data);
 				setTotal(res?.result.total);
+				setCurrentPage(currentPage);
 			}
-		} catch (err) {}
+		} catch (err) {
+			message.error('获取数据失败');
+		}
 	};
 
 	// 关闭删除弹窗
 	const closeDelModal = () => setDelModalVisible(false);
-	//
+	// 关闭新建弹窗
 	const closeAddModal = () => setAddModalVisible(false);
 
 	// 换页
 	const pageChange = (page) => {
 		setCurrentPage(page);
-		// getTableData({ page });
 	};
 
 	const columns = [
@@ -91,11 +93,15 @@ const List1 = () => {
 			title: '描述',
 			dataIndex: 'description',
 			key: 'description',
+			ellipsis: true,
+			width: 250,
 		},
 		{
 			title: '基础api',
 			dataIndex: 'base_api_names',
 			key: 'base_api_names',
+			ellipsis: true,
+			width: 300,
 		},
 		{
 			title: '类型',
@@ -113,16 +119,18 @@ const List1 = () => {
 			title: '父级',
 			dataIndex: 'address',
 			key: 'address',
+			ellipsis: true,
 		},
 		{
 			title: '操作',
 			dataIndex: '',
 			key: 'x',
 			render: (text, record) => {
+				const url = `/home/apiDetail?type=function&id=${record.id}`;
 				return (
 					<div>
 						<span className="tool-text">
-							<Link to="/home/apiDetail">详情</Link>
+							<Link to={url}>详情</Link>
 						</span>
 						<Divider type="vertical" />
 						<span
@@ -149,7 +157,7 @@ const List1 = () => {
 				<Button type="primary" onClick={() => setAddModalVisible(true)}>
 					添加功能api
 				</Button>
-				<div>
+				<div className="search-box">
 					<Input
 						placeholder="请输入搜索的关键字"
 						suffix={<SearchOutlined />}
@@ -165,6 +173,18 @@ const List1 = () => {
 						}}
 						allowClear
 					/>
+					<Button
+						type="primary"
+						className="search-btn"
+						onClick={() => {
+							getTableData({
+								currentPage,
+								searchValue,
+							});
+						}}
+					>
+						搜索
+					</Button>
 				</div>
 			</div>
 			<Table
@@ -175,7 +195,7 @@ const List1 = () => {
 				rowKey={(record) => record?.id}
 				pagination={{
 					current: currentPage,
-					pageSize: 2,
+					pageSize: SIZE,
 					total: total,
 					onChange: pageChange,
 				}}

@@ -4,7 +4,7 @@ module.exports = function (app) {
 	app.use(
 		'/api',
 		createProxyMiddleware({
-			target: '/api',
+			target: 'https://6170w159x5.goho.co',
 			changeOrigin: true,
 		})
 	);
