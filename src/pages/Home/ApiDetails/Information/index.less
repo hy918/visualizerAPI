@@ -19,18 +19,35 @@
     font-size: 16px;
 
     .left{
-      width: 45%;
+      width: 25%;
       padding: 0px 12px;
     } 
   
     .right{
-      width: 45%;
+      width: 25%;
       padding: 0px 12px;
     }
 
     .item{
       height: 34px;
       line-height: 22px;
+      display: flex;
+      justify-content: space-between;
+
+      .hide-img{
+        display: none;
+      }
+
+      &:hover{
+        .show{
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+
+          margin-right: 0px;
+        }
+      }
+
     }
   }
  

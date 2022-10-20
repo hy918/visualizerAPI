@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout, Menu } from 'antd';
-import { Link, Routes, Route } from 'react-router-dom';
+import { Link, Routes, Route, Navigate } from 'react-router-dom';
 
 import List1 from './List1';
 import List2 from './List2';
@@ -14,6 +14,7 @@ class Home extends React.Component {
 	state = {
 		collapsed: false,
 		visible: false,
+		menuKey: ['/home/list1'],
 	};
 
 	toggle = () => {
@@ -22,7 +23,12 @@ class Home extends React.Component {
 		});
 	};
 
+	getUrl = () => {
+		return window.location?.pathname;
+	};
+
 	render() {
+		const menuKey = this.setState.menuKey || this.getUrl();
 		return (
 			<Layout className="layout">
 				<Header
@@ -46,7 +52,13 @@ class Home extends React.Component {
 						<Menu
 							theme="linght"
 							mode="inline"
-							defaultSelectedKeys={['/home/list1']}
+							selectedKeys={[menuKey]}
+							onClick={(e) => {
+								console.log(123);
+								this.setState({
+									menuKey: e.key,
+								});
+							}}
 						>
 							<Menu.Item key="/home/list1">
 								<Link to="/home/list1">
@@ -73,6 +85,11 @@ class Home extends React.Component {
 							<Route path="/list1" element={<List1 />} />
 							<Route path="/list2" element={<List2 />} />
 							<Route path="/apiDetail" element={<ApiDetail />} />
+							<Route
+								exact
+								path="*"
+								element={<Navigate to="/list1" />}
+							/>
 						</Routes>
 					</Content>
 				</Layout>

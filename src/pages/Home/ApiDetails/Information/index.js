@@ -1,7 +1,9 @@
-import { Button } from 'antd';
+import { Button, Input } from 'antd';
 
 import React from 'react';
 import { Link } from 'react-router-dom';
+
+import editIcon from '@/assets/image/edit.svg';
 import './index.less';
 const Information = (props) => {
 	const { api } = props;
@@ -10,15 +12,67 @@ const Information = (props) => {
 			<div className="name">名称：组织数</div>
 			<div className="information-content">
 				<div className="left">
-					<div className="item">描述：xxxx</div>
+					<div className="item">
+						<div>
+							描述：
+							<span>xxxx</span>
+							<Input className="hide-img"></Input>
+						</div>
+						<img
+							src={editIcon}
+							alt=""
+							className="hide-img show"
+						></img>
+					</div>
 				</div>
 				<div className="left">
-					<div className="item">父级名称：xxxx</div>
-					<div className="item">父级描述：xxxx</div>
+					<div className="item">
+						<div>
+							父级名称：
+							<span>xxxx</span>
+							<Input className="hide-img"></Input>
+						</div>
+						<img
+							src={editIcon}
+							alt=""
+							className="hide-img show"
+						></img>
+					</div>
+					<div className="item">
+						<div>
+							父级描述：<span>xxxx</span>
+							<Input className="hide-img"></Input>
+						</div>
+						<img
+							src={editIcon}
+							alt=""
+							className="hide-img show"
+						></img>
+					</div>
 				</div>
 				<div className="right">
-					<div className="item">类型：xxxxx</div>
-					<div className="item">创建时间：xxxxxx</div>
+					<div className="item">
+						<div>
+							类型：<span>xxxx</span>
+							<Input className="hide-img"></Input>
+						</div>
+						<img
+							src={editIcon}
+							alt=""
+							className="hide-img show"
+						></img>
+					</div>
+					<div className="item">
+						<div>
+							创建时间：<span>xxxx</span>
+							<Input className="hide-img"></Input>
+						</div>
+						<img
+							src={editIcon}
+							alt=""
+							className="hide-img show"
+						></img>
+					</div>
 				</div>
 			</div>
 			<Button>

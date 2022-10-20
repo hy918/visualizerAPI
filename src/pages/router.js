@@ -8,7 +8,11 @@ const App = (props) => {
 			<BrowserRouter>
 				<Routes>
 					<Route path="/home/*" element={<Home />} />
-					{/* <Route path="*" element={<Navigate to="/home" />} /> */}
+					<Route
+						exact
+						path="*"
+						element={<Navigate to="/home/list1" />}
+					/>
 				</Routes>
 			</BrowserRouter>
 		</div>

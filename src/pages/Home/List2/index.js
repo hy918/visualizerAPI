@@ -3,12 +3,16 @@ import { Table, Divider, Button, Input, Tag } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
 import ModalDelete from './ModalDelete';
+import ModalCreate from './ModalCreate';
+
 import './index.less';
+
 const List2 = () => {
 	const [delModalVisible, setDelModalVisible] = useState(false); // 控制删除弹窗
 	const [delId, setDelId] = useState(0); // 删除的记录id
 	const [currentPage, setCurrentPage] = useState(1);
 	const [searchValue, setSearchValue] = useState(''); // 搜索的值
+	const [addModalVisible, setAddModalVisible] = useState(false); // 控制添加弹窗
 	const [tableData, setTableData] = useState([
 		{
 			id: '1',
@@ -45,6 +49,8 @@ const List2 = () => {
 
 	// 关闭删除弹窗
 	const closeDelModal = () => setDelModalVisible(false);
+
+	const closeAddModal = () => setAddModalVisible(false);
 
 	// 获取列表数据
 	const getTableData = ({ currentPage = 1, searchValue = '' }) => {};
@@ -107,12 +113,14 @@ const List2 = () => {
 	];
 
 	return (
-		<div className="list2Root">
+		<div className="basicApi-Root">
 			<h2>基础API列表</h2>
 			<Divider />
 
 			<div className="optionTools">
-				<Button type="primary">添加基础api</Button>
+				<Button type="primary" onClick={() => setAddModalVisible(true)}>
+					添加基础api
+				</Button>
 				<div>
 					<Input
 						placeholder="请输入搜索的关键字"
@@ -127,6 +135,7 @@ const List2 = () => {
 			<Table
 				className="tableRoot"
 				columns={columns}
+				bordered
 				dataSource={tableData}
 				rowKey={(record) => record?.id}
 				pagination={{
@@ -141,6 +150,12 @@ const List2 = () => {
 				isModalOpen={delModalVisible}
 				id={delId}
 				handleCancel={closeDelModal}
+			/>
+
+			<ModalCreate
+				isModalOpen={addModalVisible}
+				handleCancel={closeAddModal}
+				getTableData={getTableData}
 			/>
 		</div>
 	);

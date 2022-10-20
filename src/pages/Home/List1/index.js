@@ -141,7 +141,7 @@ const List1 = () => {
 	];
 
 	return (
-		<div className="list1Root">
+		<div className="functionApi-Root">
 			<h2>功能API列表</h2>
 			<Divider />
 
@@ -170,6 +170,7 @@ const List1 = () => {
 			<Table
 				className="tableRoot"
 				columns={columns}
+				bordered
 				dataSource={tableData}
 				rowKey={(record) => record?.id}
 				pagination={{

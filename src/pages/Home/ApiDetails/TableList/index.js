@@ -92,6 +92,7 @@ const TableList = () => {
 				dataSource={tableData}
 				className="table-box"
 				rowKey={(record) => record?.id}
+				bordered
 			/>
 		</div>
 	);
