@@ -33,7 +33,10 @@ const ModalCreate = (props) => {
 				onCancel={() => handleCancel()}
 			>
 				<div className="modal-content">
-					<Form form={form} initialValues={{ type: 'api' }}>
+					<Form
+						form={form}
+						initialValues={{ type: 'api', method: 'GET' }}
+					>
 						<Form.Item
 							name="method"
 							label="http方法名"
@@ -44,16 +47,16 @@ const ModalCreate = (props) => {
 								},
 							]}
 						>
-							{/*<Input*/}
-							{/*	placeholder="请输入http方法名"*/}
-							{/*	autoComplete="off"*/}
-							{/*></Input>*/}
-							<Select defaultValue="GET">
+							<Select>
 								<Select.Option value="GET">GET</Select.Option>
 								<Select.Option value="POST">POST</Select.Option>
-								<Select.Option value="DELETE">DELETE</Select.Option>
+								<Select.Option value="DELETE">
+									DELETE
+								</Select.Option>
 								<Select.Option value="PUT">PUT</Select.Option>
-								<Select.Option value="PATCH">PATCH</Select.Option>
+								<Select.Option value="PATCH">
+									PATCH
+								</Select.Option>
 							</Select>
 						</Form.Item>
 						<Form.Item

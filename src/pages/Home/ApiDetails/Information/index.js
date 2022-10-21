@@ -147,7 +147,11 @@ const Information = (props) => {
 			<div className="name">
 				名称：组织数{selectApi?.name}
 				<Button style={{ marginLeft: 100 }}>
-					<Link to="/home/list2">返回</Link>
+					{type === 'basic' ? (
+						<Link to="/home/list2">返回</Link>
+					) : (
+						<Link to="/home/list1">返回</Link>
+					)}
 				</Button>
 			</div>
 			<div className="information-content">

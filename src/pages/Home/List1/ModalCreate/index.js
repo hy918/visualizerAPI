@@ -73,7 +73,7 @@ const ModalCreate = (props) => {
 								},
 							]}
 						>
-							<Select defaultValue="api">
+							<Select>
 								<Select.Option value="api">api</Select.Option>
 								<Select.Option value="page">page</Select.Option>
 							</Select>
