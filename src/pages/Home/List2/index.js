@@ -87,6 +87,11 @@ const List2 = () => {
 	};
 	const columns = [
 		{
+			title: '描述',
+			dataIndex: 'description',
+			key: 'description',
+		},
+		{
 			title: '方法',
 			dataIndex: 'method',
 			key: 'method',
@@ -101,7 +106,11 @@ const List2 = () => {
 			dataIndex: 'type',
 			key: 'type',
 			render: (text) => {
-				return <Tag color="green">{text}</Tag>;
+				if (text === 'API'){
+					return <Tag color="green">{text}</Tag>;
+				}else {
+					return <Tag color="red">{text}</Tag>;
+				}
 			},
 		},
 		{
