@@ -138,7 +138,7 @@ const Information = (props) => {
 	return (
 		<div className="informationRoot">
 			<div className="name">
-				名称：组织数{selectApi?.name}
+				名称：{selectApi?.name}
 				<Button style={{ marginLeft: 100 }}>
 					{type === 'basic' ? (
 						<Link to="/home/list2">返回</Link>
