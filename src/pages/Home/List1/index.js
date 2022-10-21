@@ -112,13 +112,13 @@ const List1 = () => {
 		},
 		{
 			title: '创建时间',
-			dataIndex: 'address',
-			key: 'address',
+			dataIndex: 'created_time',
+			key: 'created_time',
 		},
 		{
 			title: '父级',
-			dataIndex: 'address',
-			key: 'address',
+			dataIndex: 'father_name',
+			key: 'father_name',
 			ellipsis: true,
 		},
 		{

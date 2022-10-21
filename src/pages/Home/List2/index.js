@@ -110,9 +110,9 @@ const List2 = () => {
 			key: 'father_name',
 		},
 		{
-			title: '父级地址',
-			dataIndex: 'father_path',
-			key: 'father_paht',
+			title: '所属功能API',
+			dataIndex: 'belong_func_apis',
+			key: 'belong_func_apis',
 		},
 		{
 			title: '创建时间',
