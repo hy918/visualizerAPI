@@ -18,7 +18,7 @@ const ModalCreate = (props) => {
 				}
 				message.error(res?.msg);
 			} catch (err) {
-				message.error('失败');
+				message.error('添加失败');
 			}
 		});
 	};

@@ -9,7 +9,7 @@ import ModalCreate from './ModalCreate';
 
 import './index.less';
 import { Link } from 'react-router-dom';
-const SIZE = 10;
+// const SIZE = 10;
 const List2 = () => {
 	const [delModalVisible, setDelModalVisible] = useState(false); // 控制删除弹窗
 	const [delId, setDelId] = useState(0); // 删除的记录id
@@ -18,7 +18,7 @@ const List2 = () => {
 	const [searchValue, setSearchValue] = useState(''); // 搜索的值
 	const [addModalVisible, setAddModalVisible] = useState(false); // 控制添加弹窗
 	const [tableData, setTableData] = useState([]);
-
+	const [pageSize, setPageSize] = useState(10);
 	useEffect(() => {
 		getTableData({});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -37,7 +37,7 @@ const List2 = () => {
 	const getTableData = async ({ currentPage = 1, searchValue = '' }) => {
 		const data = {
 			page: currentPage,
-			size: SIZE,
+			size: pageSize,
 			keyword: searchValue,
 		};
 		try {
@@ -53,9 +53,9 @@ const List2 = () => {
 	};
 
 	// 换页
-	const pageChange = (page) => {
+	const pageChange = (page, pageSize) => {
+		setPageSize(pageSize);
 		setCurrentPage(page);
-		// getTableData({ page });
 	};
 	const columns = [
 		{
@@ -175,9 +175,10 @@ const List2 = () => {
 				rowKey={(record) => record?.id}
 				pagination={{
 					current: currentPage,
-					pageSize: SIZE,
+					pageSize: pageSize,
 					total: total,
 					onChange: pageChange,
+					showSizeChanger: true,
 				}}
 			/>
 

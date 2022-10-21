@@ -167,7 +167,7 @@ const TableList = () => {
 
 			const res = await funcApiServer.funcApiBaseUpdate(data);
 			if (res?.code === 10200) {
-				setTableData(res?.result?.data);
+				getTableData({});
 			}
 		} catch (err) {}
 	};
@@ -193,7 +193,7 @@ const TableList = () => {
 				className="table-box"
 				rowKey={(record) => record?.id}
 				bordered
-				scroll={{ y: 800 }}
+				scroll={{ y: 600 }}
 			/>
 		</div>
 	);

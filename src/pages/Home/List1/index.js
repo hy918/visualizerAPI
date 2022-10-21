@@ -8,7 +8,7 @@ import funcApiServer from '@/services/functionApi';
 import ModalDelete from './ModalDelete';
 import ModalCreate from './ModalCreate';
 import './index.less';
-const SIZE = 10;
+// const SIZE = 10;
 const List1 = () => {
 	const [delModalVisible, setDelModalVisible] = useState(false); // 控制删除弹窗
 	const [addModalVisible, setAddModalVisible] = useState(false); // 控制添加弹窗
@@ -17,6 +17,7 @@ const List1 = () => {
 	const [total, setTotal] = useState(0); // 总数
 	const [searchValue, setSearchValue] = useState(''); // 搜索的值
 	const [tableData, setTableData] = useState([]);
+	const [pageSize, setPageSize] = useState(10);
 
 	useEffect(() => {
 		getTableData({});
@@ -30,7 +31,7 @@ const List1 = () => {
 	const getTableData = async ({ currentPage = 1, searchValue = '' }) => {
 		const data = {
 			page: currentPage,
-			size: SIZE,
+			size: pageSize,
 			keyword: searchValue,
 		};
 		try {
@@ -51,7 +52,8 @@ const List1 = () => {
 	const closeAddModal = () => setAddModalVisible(false);
 
 	// 换页
-	const pageChange = (page) => {
+	const pageChange = (page, pageSize) => {
+		setPageSize(pageSize);
 		setCurrentPage(page);
 	};
 
@@ -172,9 +174,10 @@ const List1 = () => {
 				rowKey={(record) => record?.id}
 				pagination={{
 					current: currentPage,
-					pageSize: SIZE,
+					pageSize: pageSize,
 					total: total,
 					onChange: pageChange,
+					showSizeChanger: true,
 				}}
 			/>
 
