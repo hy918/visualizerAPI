@@ -17,35 +17,7 @@ const List2 = () => {
 	const [total, setTotal] = useState(0); // 总数
 	const [searchValue, setSearchValue] = useState(''); // 搜索的值
 	const [addModalVisible, setAddModalVisible] = useState(false); // 控制添加弹窗
-	const [tableData, setTableData] = useState([
-		{
-			id: '1',
-			name: 'John Brown',
-			age: 32,
-			type: 'get',
-			fun: 'get',
-			address: 'New York No. 1 Lake Park',
-			tags: ['nice', 'developer'],
-		},
-		{
-			id: '2',
-			name: 'Jim Green',
-			age: 42,
-			fun: 'get',
-			type: 'get',
-			address: 'London No. 1 Lake Park',
-			tags: ['loser'],
-		},
-		{
-			id: '3',
-			name: 'Joe Black',
-			age: 32,
-			type: 'get',
-			fun: 'get',
-			address: 'Sidney No. 1 Lake Park',
-			tags: ['cool', 'teacher'],
-		},
-	]);
+	const [tableData, setTableData] = useState([]);
 
 	useEffect(() => {
 		getTableData({});
@@ -106,9 +78,9 @@ const List2 = () => {
 			dataIndex: 'type',
 			key: 'type',
 			render: (text) => {
-				if (text === 'API'){
+				if (text === 'API') {
 					return <Tag color="green">{text}</Tag>;
-				}else {
+				} else {
 					return <Tag color="red">{text}</Tag>;
 				}
 			},
@@ -132,6 +104,7 @@ const List2 = () => {
 			title: '操作',
 			dataIndex: '',
 			key: 'x',
+			width: 120,
 			render: (text, record) => {
 				const url = `/home/apiDetail?type=basic&id=${record.id}`;
 

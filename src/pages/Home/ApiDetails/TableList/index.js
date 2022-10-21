@@ -31,9 +31,9 @@ const TableList = () => {
 			title: '类型',
 			dataIndex: 'type',
 			render: (text) => {
-				if (text === 'API'){
+				if (text === 'API') {
 					return <Tag color="green">{text}</Tag>;
-				}else {
+				} else {
 					return <Tag color="red">{text}</Tag>;
 				}
 			},
@@ -89,9 +89,9 @@ const TableList = () => {
 			title: '类型',
 			dataIndex: 'type',
 			render: (text) => {
-				if (text === 'API'){
+				if (text === 'API') {
 					return <Tag color="green">{text}</Tag>;
-				}else {
+				} else {
 					return <Tag color="red">{text}</Tag>;
 				}
 			},
@@ -105,6 +105,7 @@ const TableList = () => {
 			title: '操作',
 			dataIndex: '',
 			key: 'x',
+			with: 200,
 			render: (text, record) => {
 				return (
 					<div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
 import { Button, Input, message } from 'antd';
@@ -17,17 +17,8 @@ const Information = (props) => {
 	const [type, setType] = useState('function'); // 区分功能api合基本api
 	const [apiInfor, setapiInfor] = useState();
 	const [description, setDescription] = useState(''); // 描述
-	const [selectApi, setSelectedApiInfo] = useState({
-		name: '组织树',
-		description: '描述',
-		father_name: '哈哈哈哈',
-		father_description: 'hhhh',
-		created_time: '2022-10-12',
-		type: 'get',
-		obj: {
-			name: 'jjj',
-		},
-	});
+	const inputRef = useRef();
+	const [selectApi, setSelectedApiInfo] = useState({});
 
 	useEffect(() => {
 		getInfo();
@@ -69,7 +60,7 @@ const Information = (props) => {
 	const onEdit = async (objkey, value) => {
 		const data = { ...selectApi, [objkey]: value };
 		const id = getParam('id');
-
+		console.log(123, data);
 		try {
 			let res = {};
 			if (type === 'function') {
@@ -96,7 +87,7 @@ const Information = (props) => {
 	// 根据key渲染
 	const ItemBox = (props) => {
 		const { label, objkey } = props;
-		let changValue = apiInfor?.[objkey]?.value;
+		const [inputValue, setInputValue] = useState(apiInfor?.[objkey]?.value);
 		return (
 			<div>
 				<div className="item">
@@ -105,9 +96,11 @@ const Information = (props) => {
 						{apiInfor?.[objkey]?.edit ? (
 							<Input
 								className="input"
-								value={changValue}
+								ref={inputRef}
+								value={inputValue}
 								onChange={(e) => {
-									changValue = e?.target?.value;
+									// changValue(objkey, e);
+									setInputValue(e?.target?.value);
 								}}
 							/>
 						) : (
@@ -117,7 +110,7 @@ const Information = (props) => {
 					{apiInfor?.[objkey]?.edit ? (
 						<div className="btn-box">
 							<Button
-								onClick={() => onEdit(objkey, changValue)}
+								onClick={() => onEdit(objkey, inputValue)}
 								type="primary"
 								className="ok-btn"
 							>
@@ -234,9 +227,7 @@ const Information = (props) => {
 					<div className="item">
 						<div>
 							创建时间：
-							<span>
-								2022-120-12{apiInfor?.created_time?.value}
-							</span>
+							<span>{apiInfor?.created_time?.value}</span>
 						</div>
 					</div>
 				</div>
