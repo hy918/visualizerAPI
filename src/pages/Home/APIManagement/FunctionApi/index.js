@@ -140,7 +140,8 @@ const List1 = () => {
 				</Button>
 				<div class="password">
 					<Input
-						placeholder="输入访问密码，回车更新缓存"
+						style={{ width: 'calc(100% - 200px)' }}
+						placeholder="输入访问密码"
 						value={password}
 						onPressEnter={() => {
 							myLocalRedis.setWithTTL(
