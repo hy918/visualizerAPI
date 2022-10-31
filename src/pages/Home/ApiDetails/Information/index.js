@@ -8,7 +8,7 @@ import basicApiServer from '@/services/basicApi';
 
 import editIcon from '@/assets/image/edit.svg';
 
-import { getParam } from '@/utils/function';
+import { getParam } from '@/utils/parseUrlUtils';
 
 import './index.less';
 

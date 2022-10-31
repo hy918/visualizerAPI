@@ -1,112 +1,73 @@
 import React, {useEffect, useState} from 'react';
+import {Link} from 'react-router-dom';
 import {Table, Divider, Button, Input, Tag, message} from 'antd';
 import {SearchOutlined} from '@ant-design/icons';
-import {myLocalRedis} from '@/utils/cache'
 
-import basicApiServer from '@/services/basicApi';
+import tableApiService from '@/services/tableApi';
 
-import ModalDelete from './ModalDelete';
+// import ModalDelete from './ModalDelete';
 import ModalCreate from './ModalCreate';
-
 import './index.less';
-import {Link} from 'react-router-dom';
 // const SIZE = 10;
-const List2 = () => {
-    const [delModalVisible, setDelModalVisible] = useState(false); // 控制删除弹窗
+const DataTableNewImportList = () => {
+    const [addModalVisible, setAddModalVisible] = useState(false); // 控制上传弹窗
     const [delId, setDelId] = useState(0); // 删除的记录id
     const [currentPage, setCurrentPage] = useState(1);
     const [total, setTotal] = useState(0); // 总数
     const [searchValue, setSearchValue] = useState(''); // 搜索的值
-    const [addModalVisible, setAddModalVisible] = useState(false); // 控制添加弹窗
     const [tableData, setTableData] = useState([]);
     const [pageSize, setPageSize] = useState(10);
-    const [password,setPassword] = useState('1234');
+
     useEffect(() => {
         getTableData({});
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
         getTableData({currentPage});
     }, [currentPage]);
 
-    // 关闭删除弹窗
-    const closeDelModal = () => setDelModalVisible(false);
-
-    const closeAddModal = () => setAddModalVisible(false);
-
     // 获取列表数据
     const getTableData = async ({currentPage = 1, searchValue = ''}) => {
         const data = {
             page: currentPage,
             size: pageSize,
-            keyword: searchValue,
+            md5: searchValue,
         };
         try {
-            const res = await basicApiServer.basicApiList(data);
+            const res = await tableApiService.tmpTableList(data);
             if (res?.code === 10200 && res?.result) {
                 setTableData(res?.result?.data);
                 setTotal(res?.result.total);
                 setCurrentPage(currentPage);
             }
         } catch (err) {
-            message.error('获取数据失败');
+            message.error(err + '获取数据失败');
         }
     };
+
+    // 关闭新建弹窗
+    const closeAddModal = () => setAddModalVisible(false);
 
     // 换页
     const pageChange = (page, pageSize) => {
         setPageSize(pageSize);
         setCurrentPage(page);
     };
+
     const columns = [
+        {
+            title: '名称',
+            dataIndex: 'name',
+            key: 'name',
+        },
         {
             title: '描述',
             dataIndex: 'description',
             key: 'description',
+            ellipsis: true,
+            width: 250,
         },
-        {
-            title: '方法',
-            dataIndex: 'method',
-            key: 'method',
-        },
-        {
-            title: 'URL',
-            dataIndex: 'url',
-            key: 'url',
-            // defaultSortOrder: 'descend',
-            sorter: {
-                compare: (a, b) => a.url.localeCompare(b.url),
-                multiple: 2
-            }
-        },
-        {
-            title: '类型',
-            dataIndex: 'type',
-            key: 'type',
-            render: (text) => {
-                if (text === 'API') {
-                    return <Tag color="green">{text}</Tag>;
-                } else {
-                    return <Tag color="red">{text}</Tag>;
-                }
-            },
-        },
-        {
-            title: '父级名字',
-            dataIndex: 'father_name',
-            key: 'father_name',
-        },
-        {
-            title: '所属功能API',
-            dataIndex: 'belong_func_apis',
-            key: 'belong_func_apis',
-            // defaultSortOrder: 'descend',
-            sorter: {
-                compare: (a, b) => a.belong_func_apis.localeCompare(b.belong_func_apis),
-                multiple: 1
-            }
-        },
+
         {
             title: '创建时间',
             dataIndex: 'created_time',
@@ -118,8 +79,7 @@ const List2 = () => {
             key: 'x',
             width: 120,
             render: (text, record) => {
-                const url = `/home/apiDetail?type=basic&id=${record.id}`;
-
+                const url = `/home/apiDetail?type=function&id=${record.id}`;
                 return (
                     <div>
 						<span className="tool-text">
@@ -130,7 +90,6 @@ const List2 = () => {
                             className="tool-text"
                             onClick={() => {
                                 setDelId(record.id);
-                                setDelModalVisible(true);
                             }}
                         >
 							删除
@@ -142,33 +101,19 @@ const List2 = () => {
     ];
 
     return (
-        <div className="basicApi-Root">
-            <h2>基础API列表</h2>
+        <div className="functionApi-Root">
+            <h2>导入的数据表结构管理</h2>
             <Divider/>
 
             <div className="optionTools">
-                <Button type="primary" onClick={() => setAddModalVisible(true)}>
-                    添加基础api
+                <Button type="primary" onClick={()=>setAddModalVisible(true)}>
+                    上传待解析的文档
                 </Button>
-                <div className="password">
-                    <Input
-                        placeholder="输入访问密码，回车更新缓存"
-                        value={password}
-                        onPressEnter={() => {
-                            myLocalRedis.setWithTTL('password', password, 10 * 60 * 60)
-                            console.log(myLocalRedis.getWithTTL('password'))
-                        }}
-                        onChange={(e) => {
-                            // changValue(objkey, e);
-                            setPassword(e?.target?.value);
-                        }}
-                        allowClear
-                    />
-                </div>
                 <div className="search-box">
                     <Input
                         placeholder="请输入搜索的关键字"
                         suffix={<SearchOutlined/>}
+                        value={searchValue}
                         onChange={(e) => {
                             setSearchValue(e?.target?.value);
                         }}
@@ -206,17 +151,16 @@ const List2 = () => {
                     total: total,
                     onChange: pageChange,
                     showSizeChanger: true,
-                    pageSizeOptions: [10,20,100,500]
+                    pageSizeOptions: [10, 20, 100, 500]
                 }}
             />
 
-            <ModalDelete
-                isModalOpen={delModalVisible}
-                id={delId}
-                handleCancel={closeDelModal}
-                getTableData={getTableData}
-            />
-
+            {/*<ModalDelete*/}
+            {/*    isModalOpen={delModalVisible}*/}
+            {/*    id={delId}*/}
+            {/*    handleCancel={closeDelModal}*/}
+            {/*    getTableData={getTableData}*/}
+            {/*/>*/}
             <ModalCreate
                 isModalOpen={addModalVisible}
                 handleCancel={closeAddModal}
@@ -225,4 +169,4 @@ const List2 = () => {
         </div>
     );
 };
-export default List2;
+export default DataTableNewImportList;

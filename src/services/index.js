@@ -17,5 +17,15 @@ const API = {
 	basicApiAdd: `${baseApi}/baseapi`,
 	basicApiBaseList: `${baseApi}/baseapi2funcapis`,
 	basicApiBaseUpdate: `${baseApi}/funcapi2baseapi`,
+
+	// 流程相关
+	processTreeList: `${baseApi}/processes`, // 获取流程树
+	processNodeList: `${baseApi}/process/nodes`,
+	processSideList: `${baseApi}/process/sides`,
+	processHistoryList: `${baseApi}/process/history`,
+
+	// 表结构相关
+	tableImport: `${baseApi}/importtable`, // 导入表结构
+	tableImportedList: `${baseApi}/import/tables`
 };
 export { API };

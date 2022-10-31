@@ -74,8 +74,8 @@ const ModalCreate = (props) => {
 							]}
 						>
 							<Select>
-								<Select.Option value="api">api</Select.Option>
-								<Select.Option value="page">page</Select.Option>
+								<Select.Option value="api">API</Select.Option>
+								<Select.Option value="page">PAGE</Select.Option>
 							</Select>
 						</Form.Item>
 						<Form.Item

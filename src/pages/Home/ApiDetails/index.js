@@ -4,7 +4,7 @@ import { Divider } from 'antd';
 import Information from './Information';
 import TableList from './TableList';
 
-import { getParam } from '@/utils/function';
+import { getParam } from '@/utils/parseUrlUtils';
 
 import './index.less';
 const ApiDetail = (props) => {

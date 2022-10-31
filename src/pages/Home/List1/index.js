@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Table, Divider, Button, Input, Tag, message } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
+import {myLocalRedis} from '@/utils/cache'
 
 import funcApiServer from '@/services/functionApi';
 
@@ -18,6 +19,7 @@ const List1 = () => {
 	const [searchValue, setSearchValue] = useState(''); // 搜索的值
 	const [tableData, setTableData] = useState([]);
 	const [pageSize, setPageSize] = useState(10);
+	const [password,setPassword] = useState('1234');
 
 	useEffect(() => {
 		getTableData({});
@@ -42,7 +44,9 @@ const List1 = () => {
 				setCurrentPage(currentPage);
 			}
 		} catch (err) {
+			console.log(err)
 			message.error('获取数据失败');
+
 		}
 	};
 
@@ -136,6 +140,22 @@ const List1 = () => {
 				<Button type="primary" onClick={() => setAddModalVisible(true)}>
 					添加功能api
 				</Button>
+				<div class="password">
+					<Input
+						placeholder="输入访问密码，回车更新缓存"
+						value={password}
+						onPressEnter={() => {
+							myLocalRedis.setWithTTL('password',password,10*60*60)
+							console.log(myLocalRedis.getWithTTL('password'))
+						}}
+						onChange={(e) => {
+							// changValue(objkey, e);
+							setPassword(e?.target?.value);
+						}}
+						allowClear
+					/>
+				</div>
+
 				<div className="search-box">
 					<Input
 						placeholder="请输入搜索的关键字"
@@ -178,6 +198,7 @@ const List1 = () => {
 					total: total,
 					onChange: pageChange,
 					showSizeChanger: true,
+					pageSizeOptions: [10,20,100,500]
 				}}
 			/>
 

@@ -4,7 +4,7 @@ import { Select, Table, Divider, Tag } from 'antd';
 import funcApiServer from '@/services/functionApi';
 import basicApiServer from '@/services/basicApi';
 
-import { getParam } from '@/utils/function';
+import { getParam } from '@/utils/parseUrlUtils';
 
 import './index.less';
 const TableList = () => {
@@ -194,6 +194,7 @@ const TableList = () => {
 				rowKey={(record) => record?.id}
 				bordered
 				scroll={{ y: 600 }}
+				pagination={false}
 			/>
 		</div>
 	);

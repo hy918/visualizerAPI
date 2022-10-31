@@ -71,7 +71,8 @@ const ModalCreate = (props) => {
 						>
 							<Input
 								placeholder="请输入http路径"
-								autoComplete="off"
+								autoComplete="on"
+								defaultValue="/api/v1/"
 							></Input>
 						</Form.Item>
 						<Form.Item
@@ -85,7 +86,7 @@ const ModalCreate = (props) => {
 							]}
 						>
 							<Input
-								placeholder="请输入父级名字"
+								placeholder="请输入父级名字，若没有父级，则写入--"
 								autoComplete="off"
 							></Input>
 						</Form.Item>
@@ -100,8 +101,8 @@ const ModalCreate = (props) => {
 							]}
 						>
 							<Select>
-								<Select.Option value="api">api</Select.Option>
-								<Select.Option value="page">page</Select.Option>
+								<Select.Option value="api">API</Select.Option>
+								<Select.Option value="page">PAGE</Select.Option>
 							</Select>
 						</Form.Item>
 						<Form.Item

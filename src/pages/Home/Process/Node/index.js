@@ -1,39 +1,31 @@
 import React, {useEffect, useState} from 'react';
+import {Link} from 'react-router-dom';
 import {Table, Divider, Button, Input, Tag, message} from 'antd';
 import {SearchOutlined} from '@ant-design/icons';
-import {myLocalRedis} from '@/utils/cache'
 
-import basicApiServer from '@/services/basicApi';
+import processServer from '@/services/processApi';
 
-import ModalDelete from './ModalDelete';
-import ModalCreate from './ModalCreate';
-
+// import ModalDelete from './ModalDelete';
+// import ModalCreate from './ModalCreate';
 import './index.less';
-import {Link} from 'react-router-dom';
 // const SIZE = 10;
-const List2 = () => {
+const ProcessNodeList = () => {
     const [delModalVisible, setDelModalVisible] = useState(false); // 控制删除弹窗
+    const [addModalVisible, setAddModalVisible] = useState(false); // 控制添加弹窗
     const [delId, setDelId] = useState(0); // 删除的记录id
     const [currentPage, setCurrentPage] = useState(1);
     const [total, setTotal] = useState(0); // 总数
     const [searchValue, setSearchValue] = useState(''); // 搜索的值
-    const [addModalVisible, setAddModalVisible] = useState(false); // 控制添加弹窗
     const [tableData, setTableData] = useState([]);
     const [pageSize, setPageSize] = useState(10);
-    const [password,setPassword] = useState('1234');
+
     useEffect(() => {
         getTableData({});
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
         getTableData({currentPage});
     }, [currentPage]);
-
-    // 关闭删除弹窗
-    const closeDelModal = () => setDelModalVisible(false);
-
-    const closeAddModal = () => setAddModalVisible(false);
 
     // 获取列表数据
     const getTableData = async ({currentPage = 1, searchValue = ''}) => {
@@ -43,14 +35,14 @@ const List2 = () => {
             keyword: searchValue,
         };
         try {
-            const res = await basicApiServer.basicApiList(data);
+            const res = await processServer.processNodeList(data);
             if (res?.code === 10200 && res?.result) {
                 setTableData(res?.result?.data);
                 setTotal(res?.result.total);
                 setCurrentPage(currentPage);
             }
         } catch (err) {
-            message.error('获取数据失败');
+            message.error(err + '获取数据失败');
         }
     };
 
@@ -59,52 +51,36 @@ const List2 = () => {
         setPageSize(pageSize);
         setCurrentPage(page);
     };
+
     const columns = [
         {
-            title: '描述',
-            dataIndex: 'description',
-            key: 'description',
+            title: '节点id',
+            dataIndex: 'id',
+            key: 'id',
+            width: 300
         },
         {
-            title: '方法',
-            dataIndex: 'method',
-            key: 'method',
+            title: '节点名称',
+            dataIndex: 'node_name',
+            key: 'node_name',
+            width: 100
         },
         {
-            title: 'URL',
-            dataIndex: 'url',
-            key: 'url',
-            // defaultSortOrder: 'descend',
-            sorter: {
-                compare: (a, b) => a.url.localeCompare(b.url),
-                multiple: 2
-            }
+            title: '所属流程',
+            dataIndex: 'process_tree',
+            key: 'process_tree',
+            ellipsis: true,
         },
         {
-            title: '类型',
-            dataIndex: 'type',
-            key: 'type',
-            render: (text) => {
-                if (text === 'API') {
-                    return <Tag color="green">{text}</Tag>;
-                } else {
+            title: '节点类型',
+            dataIndex: 'node_type',
+            key: 'node_type',
+            render: (text, record) => {
+                if (text === 'control'){
                     return <Tag color="red">{text}</Tag>;
+                }else {
+                    return <Tag color="blue">{text}</Tag>;
                 }
-            },
-        },
-        {
-            title: '父级名字',
-            dataIndex: 'father_name',
-            key: 'father_name',
-        },
-        {
-            title: '所属功能API',
-            dataIndex: 'belong_func_apis',
-            key: 'belong_func_apis',
-            // defaultSortOrder: 'descend',
-            sorter: {
-                compare: (a, b) => a.belong_func_apis.localeCompare(b.belong_func_apis),
-                multiple: 1
             }
         },
         {
@@ -118,8 +94,7 @@ const List2 = () => {
             key: 'x',
             width: 120,
             render: (text, record) => {
-                const url = `/home/apiDetail?type=basic&id=${record.id}`;
-
+                const url = `/home/apiDetail?type=function&id=${record.id}`;
                 return (
                     <div>
 						<span className="tool-text">
@@ -142,33 +117,19 @@ const List2 = () => {
     ];
 
     return (
-        <div className="basicApi-Root">
-            <h2>基础API列表</h2>
+        <div className="functionApi-Root">
+            <h2>流程节点管理</h2>
             <Divider/>
 
             <div className="optionTools">
                 <Button type="primary" onClick={() => setAddModalVisible(true)}>
-                    添加基础api
+                    添加流程节点
                 </Button>
-                <div className="password">
-                    <Input
-                        placeholder="输入访问密码，回车更新缓存"
-                        value={password}
-                        onPressEnter={() => {
-                            myLocalRedis.setWithTTL('password', password, 10 * 60 * 60)
-                            console.log(myLocalRedis.getWithTTL('password'))
-                        }}
-                        onChange={(e) => {
-                            // changValue(objkey, e);
-                            setPassword(e?.target?.value);
-                        }}
-                        allowClear
-                    />
-                </div>
                 <div className="search-box">
                     <Input
                         placeholder="请输入搜索的关键字"
                         suffix={<SearchOutlined/>}
+                        value={searchValue}
                         onChange={(e) => {
                             setSearchValue(e?.target?.value);
                         }}
@@ -206,23 +167,22 @@ const List2 = () => {
                     total: total,
                     onChange: pageChange,
                     showSizeChanger: true,
-                    pageSizeOptions: [10,20,100,500]
+                    pageSizeOptions: [10, 20, 100, 500]
                 }}
             />
 
-            <ModalDelete
-                isModalOpen={delModalVisible}
-                id={delId}
-                handleCancel={closeDelModal}
-                getTableData={getTableData}
-            />
-
-            <ModalCreate
-                isModalOpen={addModalVisible}
-                handleCancel={closeAddModal}
-                getTableData={getTableData}
-            />
+            {/*<ModalDelete*/}
+            {/*    isModalOpen={delModalVisible}*/}
+            {/*    id={delId}*/}
+            {/*    handleCancel={closeDelModal}*/}
+            {/*    getTableData={getTableData}*/}
+            {/*/>*/}
+            {/*<ModalCreate*/}
+            {/*    isModalOpen={addModalVisible}*/}
+            {/*    handleCancel={closeAddModal}*/}
+            {/*    getTableData={getTableData}*/}
+            {/*/>*/}
         </div>
     );
 };
-export default List2;
+export default ProcessNodeList;
