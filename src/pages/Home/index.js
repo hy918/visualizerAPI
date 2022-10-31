@@ -64,7 +64,6 @@ class Home extends React.Component {
 								return (
 									<Menu.SubMenu title={title} key={index}>
 										{_.map(children, (child) => {
-											console.log('child', child);
 											return (
 												<Menu.Item key={child?.key}>
 													<Link to={child?.key}>

@@ -141,9 +141,9 @@ const Information = (props) => {
 				名称：{selectApi?.name}
 				<Button style={{ marginLeft: 100 }}>
 					{type === 'basic' ? (
-						<Link to="/home/list2">返回</Link>
+						<Link to="/home/apiManage/basic">返回</Link>
 					) : (
-						<Link to="/home/list1">返回</Link>
+						<Link to="/home/apiManage/function">返回</Link>
 					)}
 				</Button>
 			</div>

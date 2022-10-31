@@ -108,7 +108,7 @@ const List1 = () => {
 			key: 'x',
 			width: 120,
 			render: (text, record) => {
-				const url = `/home/apiDetail?type=function&id=${record.id}`;
+				const url = `/home/apiManage/apiDetail?type=function&id=${record.id}`;
 				return (
 					<div>
 						<span className="tool-text">
