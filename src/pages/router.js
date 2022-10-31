@@ -11,7 +11,7 @@ const App = (props) => {
 					<Route
 						exact
 						path="*"
-						element={<Navigate to="/home/list1" />}
+						element={<Navigate to="/home/apiManage/function" />}
 					/>
 				</Routes>
 			</BrowserRouter>
