@@ -33,13 +33,16 @@ class Home extends React.Component {
 			<Layout className="layout">
 				<Header
 					style={{
-						background: '#000',
 						color: '#fff',
-						fontSize: 20,
+						fontSize: 18,
 						marginLeft: -20,
 					}}
+					className="l-header"
 				>
-					后端自动化可视化工具集
+					<div>后端自动化可视化工具集</div>
+					<div className="loginout">
+						<Link to="/login">退出</Link>
+					</div>
 				</Header>
 				<Layout className="site-layout">
 					<Sider

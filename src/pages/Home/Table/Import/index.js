@@ -145,7 +145,7 @@ const DataTableNewImportList = () => {
 				columns={columns}
 				bordered
 				dataSource={tableData}
-				rowKey={(record) => record?.id}
+				rowKey={(record) => record?.key}
 				pagination={{
 					current: currentPage,
 					pageSize: pageSize,
