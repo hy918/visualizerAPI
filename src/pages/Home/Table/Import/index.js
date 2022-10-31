@@ -59,19 +59,20 @@ const DataTableNewImportList = () => {
             title: '名称',
             dataIndex: 'name',
             key: 'name',
+            width: 400
         },
         {
             title: '描述',
-            dataIndex: 'description',
-            key: 'description',
+            dataIndex: 'desc',
+            key: 'desc',
             ellipsis: true,
-            width: 250,
         },
 
         {
-            title: '创建时间',
-            dataIndex: 'created_time',
-            key: 'created_time',
+            title: '类型',
+            dataIndex: 'type',
+            key: 'type',
+            width: 200
         },
         {
             title: '操作',
@@ -83,7 +84,7 @@ const DataTableNewImportList = () => {
                 return (
                     <div>
 						<span className="tool-text">
-							<Link to={url}>详情</Link>
+							<Link to={url}>编辑</Link>
 						</span>
                         <Divider type="vertical"/>
                         <span
