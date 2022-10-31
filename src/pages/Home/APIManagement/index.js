@@ -12,6 +12,7 @@ const ApiManageMent = () => {
 				<Route path="/function" element={<FunctionApi />}></Route>
 				<Route path="/basic" element={<BasicApi />}></Route>
 				<Route path="/apiDetail" element={<ApiDetail />} />
+				<Route path="/" element={<FunctionApi />} />
 			</Routes>
 		</div>
 	);

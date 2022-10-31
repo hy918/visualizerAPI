@@ -5,7 +5,7 @@ import { SearchOutlined } from '@ant-design/icons';
 import { myLocalRedis } from '@/utils/cache';
 
 import funcApiServer from '@/services/functionApi';
-
+import TipModal from '@/components/TipModal';
 import ModalDelete from './ModalDelete';
 import ModalCreate from './ModalCreate';
 import './index.less';
@@ -217,12 +217,19 @@ const List1 = () => {
 				}}
 			/>
 
-			<ModalDelete
+			{/* <ModalDelete
 				isModalOpen={delModalVisible}
 				id={delId}
 				handleCancel={closeDelModal}
 				getTableData={getTableData}
+			/> */}
+
+			<TipModal
+				visible={delModalVisible}
+				title="删除功能API"
+				content="确定要删除该删除功能API吗？"
 			/>
+
 			<ModalCreate
 				isModalOpen={addModalVisible}
 				handleCancel={closeAddModal}
