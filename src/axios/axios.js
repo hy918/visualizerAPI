@@ -3,8 +3,6 @@
 import axios from 'axios';
 import _ from 'lodash';
 import { message } from 'antd';
-import Cookie from 'js-cookie';
-
 import paramsToQueryString from './paramsToQueryString.js';
 import { myLocalRedis } from '@/utils/cache';
 
@@ -106,11 +104,15 @@ service.interceptors.response.use(
 		}
 
 		const { status, data: { Code, ErrorCode, code } = {} } = error.response;
-		const curCode = `${Code || ErrorCode || code || ''}`;
 
 		if (status === 500 || status === 403) {
 			message.error(error && (error.message || error.Message));
 			return error;
+		}
+
+		if (status === 504) {
+			message.error('密码已过期，请重新登录');
+			// window.location.replace('/login');
 		}
 		return err;
 	}

@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Table, Divider, Button, Input, Tag, message } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { myLocalRedis } from '@/utils/cache';
 
 import funcApiServer from '@/services/functionApi';
-import TipModal from '@/components/TipModal';
 import ModalDelete from './ModalDelete';
 import ModalCreate from './ModalCreate';
 import './index.less';
-// const SIZE = 10;
+
 const List1 = () => {
 	const [delModalVisible, setDelModalVisible] = useState(false); // 控制删除弹窗
 	const [addModalVisible, setAddModalVisible] = useState(false); // 控制添加弹窗
@@ -27,7 +26,7 @@ const List1 = () => {
 
 	useEffect(() => {
 		getTableData({ currentPage });
-	}, [currentPage]);
+	}, [currentPage, pageSize]);
 
 	// 获取列表数据
 	const getTableData = async ({ currentPage = 1, searchValue = '' }) => {
@@ -149,7 +148,6 @@ const List1 = () => {
 								password,
 								10 * 60 * 60
 							);
-							console.log(myLocalRedis.getWithTTL('password'));
 						}}
 						onChange={(e) => {
 							// changValue(objkey, e);
@@ -217,17 +215,11 @@ const List1 = () => {
 				}}
 			/>
 
-			{/* <ModalDelete
+			<ModalDelete
 				isModalOpen={delModalVisible}
 				id={delId}
 				handleCancel={closeDelModal}
 				getTableData={getTableData}
-			/> */}
-
-			<TipModal
-				visible={delModalVisible}
-				title="删除功能API"
-				content="确定要删除该删除功能API吗？"
 			/>
 
 			<ModalCreate
