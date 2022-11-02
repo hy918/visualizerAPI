@@ -7,9 +7,10 @@ import userImage from '@/assets/image/dengluzhanghu.svg';
 import passImage from '@/assets/image/mima.svg';
 
 import './index.less';
-const Login = () => {
+const Login = (props) => {
 	const [form] = Form.useForm();
 	const history = useNavigate();
+
 	const onFinish = () => {
 		form.validateFields().then(async (values) => {
 			const { username, password } = values;
@@ -30,12 +31,6 @@ const Login = () => {
 			<div className="loginbox">
 				<h2 className="title">api后台管理</h2>
 				<Form
-					// labelCol={{
-					// 	span: 6,
-					// }}
-					// wrapperCol={{
-					// 	span: 16,
-					// }}
 					initialValues={{
 						remember: true,
 					}}
@@ -89,7 +84,6 @@ const Login = () => {
 							}
 						/>
 					</Form.Item>
-
 					<Form.Item>
 						<Button
 							type="primary"
@@ -104,4 +98,5 @@ const Login = () => {
 		</div>
 	);
 };
+
 export default Login;
