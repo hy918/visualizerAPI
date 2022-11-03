@@ -138,37 +138,37 @@ const List1 = () => {
 				<Button type="primary" onClick={() => setAddModalVisible(true)}>
 					添加功能api
 				</Button>
-				<div class="password">
-					<Input
-						style={{ width: 'calc(100% - 200px)' }}
-						placeholder="输入访问密码"
-						value={password}
-						onPressEnter={() => {
-							myLocalRedis.setWithTTL(
-								'password',
-								password,
-								10 * 60 * 60
-							);
-						}}
-						onChange={(e) => {
-							// changValue(objkey, e);
-							setPassword(e?.target?.value);
-						}}
-						allowClear
-					/>
-					<Button
-						type="primary"
-						onClick={() => {
-							myLocalRedis.setWithTTL(
-								'password',
-								password,
-								10 * 60 * 60
-							);
-						}}
-					>
-						确定
-					</Button>
-				</div>
+				{/*<div class="password">*/}
+				{/*	<Input*/}
+				{/*		style={{ width: 'calc(100% - 200px)' }}*/}
+				{/*		placeholder="输入访问密码"*/}
+				{/*		value={password}*/}
+				{/*		onPressEnter={() => {*/}
+				{/*			myLocalRedis.setWithTTL(*/}
+				{/*				'password',*/}
+				{/*				password,*/}
+				{/*				10 * 60 * 60*/}
+				{/*			);*/}
+				{/*		}}*/}
+				{/*		onChange={(e) => {*/}
+				{/*			// changValue(objkey, e);*/}
+				{/*			setPassword(e?.target?.value);*/}
+				{/*		}}*/}
+				{/*		allowClear*/}
+				{/*	/>*/}
+				{/*	<Button*/}
+				{/*		type="primary"*/}
+				{/*		onClick={() => {*/}
+				{/*			myLocalRedis.setWithTTL(*/}
+				{/*				'password',*/}
+				{/*				password,*/}
+				{/*				10 * 60 * 60*/}
+				{/*			);*/}
+				{/*		}}*/}
+				{/*	>*/}
+				{/*		确定*/}
+				{/*	</Button>*/}
+				{/*</div>*/}
 
 				<div className="search-box">
 					<Input

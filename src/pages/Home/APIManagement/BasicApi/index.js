@@ -151,25 +151,25 @@ const List2 = () => {
 				<Button type="primary" onClick={() => setAddModalVisible(true)}>
 					添加基础api
 				</Button>
-				<div className="password">
-					<Input
-						placeholder="输入访问密码，回车更新缓存"
-						value={password}
-						onPressEnter={() => {
-							myLocalRedis.setWithTTL(
-								'password',
-								password,
-								10 * 60 * 60
-							);
-							console.log(myLocalRedis.getWithTTL('password'));
-						}}
-						onChange={(e) => {
-							// changValue(objkey, e);
-							setPassword(e?.target?.value);
-						}}
-						allowClear
-					/>
-				</div>
+				{/*<div className="password">*/}
+				{/*	<Input*/}
+				{/*		placeholder="输入访问密码，回车更新缓存"*/}
+				{/*		value={password}*/}
+				{/*		onPressEnter={() => {*/}
+				{/*			myLocalRedis.setWithTTL(*/}
+				{/*				'password',*/}
+				{/*				password,*/}
+				{/*				10 * 60 * 60*/}
+				{/*			);*/}
+				{/*			console.log(myLocalRedis.getWithTTL('password'));*/}
+				{/*		}}*/}
+				{/*		onChange={(e) => {*/}
+				{/*			// changValue(objkey, e);*/}
+				{/*			setPassword(e?.target?.value);*/}
+				{/*		}}*/}
+				{/*		allowClear*/}
+				{/*	/>*/}
+				{/*</div>*/}
 				<div className="search-box">
 					<Input
 						placeholder="请输入搜索的关键字"

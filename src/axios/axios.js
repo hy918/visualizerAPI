@@ -40,6 +40,7 @@ service.interceptors.request.use(
 
 		config.headers['Content-Type'] = 'application/json; charset=utf-8';
 		config.headers.password = myLocalRedis.getWithTTL('password');
+		config.headers.username = myLocalRedis.getWithTTL('username');
 
 		// 上传文件配置，必传 type：file
 		if (config?.data?.type === 'file') {
