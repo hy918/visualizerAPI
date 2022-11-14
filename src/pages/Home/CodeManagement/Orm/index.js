@@ -93,7 +93,7 @@ const ObRelationRoot = (props) => {
 
 	return (
 		<div className="ormTableList">
-			<h2>Build</h2>
+			<h2>ORM</h2>
 			<Divider></Divider>
 			<div className="g-align-between">
 				<Button type="primary">新建</Button>
