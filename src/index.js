@@ -7,6 +7,7 @@ import store from './reduxConfig';
 import setPrototypeOf from 'setprototypeof';
 import 'antd/dist/antd.css';
 import './index.css';
+import './global.less';
 
 import App from './pages/router';
 

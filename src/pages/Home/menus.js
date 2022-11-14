@@ -28,6 +28,17 @@ const homeMenus = [
 		],
 		title: '数据表管理',
 	},
+	{
+		key: '/home/codeManage',
+		children: [
+			{ key: '/home/codeManage/builder', title: 'Builder' },
+			{
+				key: '/home/codeManage/ORM',
+				title: 'ORM',
+			},
+		],
+		title: '代码生成管理',
+	},
 ];
 
 export { homeMenus };

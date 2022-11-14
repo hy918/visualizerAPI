@@ -5,6 +5,8 @@ import _ from 'lodash';
 import ApiManageMent from './APIManagement';
 import ProcessList from './Process';
 import DataManageMent from './Table';
+import CodeManageMent from './CodeManagement/copy.tsx';
+
 import { homeMenus } from './menus';
 import './index.less';
 
@@ -25,6 +27,19 @@ class Home extends React.Component {
 
 	getUrl = () => {
 		return window.location?.pathname;
+	};
+
+	aa = () => {
+		// 定义循环的数数组，js用let定义
+		// let arr = [
+		// 	{ name: '1', src: 'http://' },
+		// 	{ name: '2', src: 'http://' },
+		// 	{ name: '3', src: 'http://' },
+		// ];
+		// opportunity = ['<a href=`${}`>点击</a>', '<a href=`` ></a>'];
+		// for (let i = 0; i < arr.length; i++) {
+		// 	opportunity.push();
+		// }
 	};
 
 	render() {
@@ -95,6 +110,10 @@ class Home extends React.Component {
 							<Route
 								path="/process/*"
 								element={<ProcessList />}
+							/>
+							<Route
+								path="/codeManage/*"
+								element={<CodeManageMent />}
 							/>
 							<Route
 								exact
