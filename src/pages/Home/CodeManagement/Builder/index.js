@@ -3,18 +3,21 @@ import { Input, Table, Divider, Button } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
 import TipModal from '@/components/TipModal';
+import buildCodeService from '@/services/buildCodeService';
 import Details from './Details';
+import ModalAdd from './Add';
 
 import './index.less';
 const reduer = (state, action) => ({ ...state, ...action });
 const initData = { page: 1, size: 10, total: 0, search_key: '' };
 const BuilderRoot = (props) => {
-	const { tableData } = props;
+	const { tableData, setTableData } = useState([]);
 	const [tableState, SettableState] = useReducer(reduer, initData);
 	const [searchValue, setSearchValue] = useState('');
 	const [deleteVisible, setDelModalVisible] = useState(false);
 	const [detailVisible, setdetailModalVisible] = useState(false);
 	const [optionId, setOptionId] = useState(0); // 操作的id
+	const [addModalvisible, setAddModalVisible] = useState(false);
 
 	const columns = [
 		{
@@ -77,9 +80,13 @@ const BuilderRoot = (props) => {
 	}, [tableState]);
 
 	// 获取列表数据
-	const getTableData = async ({ page = 1, size = 10, search_key = '' }) => {
+	const getTableData = async ({ page = 1, search_key = '', size = 10 }) => {
 		try {
 			const data = { page, size, search_key };
+			const res = await buildCodeService.buildCodeList(data);
+			if (res.code === 10200) {
+				setTableData(res?.result?.data);
+			}
 		} catch (err) {}
 	};
 
@@ -96,7 +103,9 @@ const BuilderRoot = (props) => {
 			<h2>Build</h2>
 			<Divider></Divider>
 			<div className="g-align-between">
-				<Button type="primary">新建</Button>
+				<Button type="primary" onClick={() => setAddModalVisible(true)}>
+					新建
+				</Button>
 				<div className="g-flex">
 					<Input
 						suffix={<SearchOutlined />}
@@ -141,6 +150,15 @@ const BuilderRoot = (props) => {
 			/>
 
 			<Details id={optionId} visible={detailVisible} />
+
+			<ModalAdd
+				isModalOpen={addModalvisible}
+				handleCancel={() => setAddModalVisible(false)}
+				ok={() => {
+					setAddModalVisible(false);
+					setTableData({ page: 1 });
+				}}
+			/>
 		</div>
 	);
 };

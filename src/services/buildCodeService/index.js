@@ -34,7 +34,10 @@ const buildCodeDelete = async (id) => {
  * 添加
  */
 const buildCodeCreate = async (data) => {
-	return await apiServerice.axiosPost(API.buildCodeCreate, data);
+	return await apiServerice.axiosPost(API.buildCodeCreate, {
+		type: 'file',
+		...data,
+	});
 };
 
 /**
@@ -80,8 +83,7 @@ const buildCodeDownload = async (data) => {
 	}
 };
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default {
+const buildCodeService = {
 	buildCodeCreate,
 	buildCodeList,
 	buildCodeInfo,
@@ -89,3 +91,5 @@ export default {
 	buildCodeDelete,
 	buildCodeDownload,
 };
+
+export default buildCodeService;

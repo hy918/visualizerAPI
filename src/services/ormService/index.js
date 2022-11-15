@@ -41,8 +41,7 @@ const ormCodeCreate = async (data) => {
  */
 const ormCodeDownload = async (data) => {};
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default {
+const ormService = {
 	ormCodeCreate,
 	ormCodeInfo,
 	ormCodeList,
@@ -50,3 +49,4 @@ export default {
 	ormCodeDelete,
 	ormCodeDownload,
 };
+export default ormService;

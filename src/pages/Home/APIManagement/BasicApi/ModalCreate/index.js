@@ -35,7 +35,11 @@ const ModalCreate = (props) => {
 				<div className="modal-content">
 					<Form
 						form={form}
-						initialValues={{ type: 'api', method: 'GET' }}
+						initialValues={{
+							type: 'api',
+							method: 'GET',
+							path: '/api/v1/',
+						}}
 					>
 						<Form.Item
 							name="method"
@@ -72,7 +76,6 @@ const ModalCreate = (props) => {
 							<Input
 								placeholder="请输入http路径"
 								autoComplete="on"
-								defaultValue="/api/v1/"
 							></Input>
 						</Form.Item>
 						<Form.Item
