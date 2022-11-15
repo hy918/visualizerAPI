@@ -43,11 +43,11 @@ const buildCodeCreate = async (data) => {
 /**
  * 下载
  */
-const buildCodeDownload = async (data) => {
+const buildCodeDownload = async (id) => {
 	try {
-		const result = await apiServerice.axiosPost(
-			API.buildCodeDownload,
-			data,
+		const result = await apiServerice.axiosGet(
+			`${API.buildCodeDownload}/${id}`,
+			{},
 			{
 				responseType: 'blob',
 			}
@@ -74,7 +74,7 @@ const buildCodeDownload = async (data) => {
 		const blob = new Blob([result], { type: csvType }); // 指定格式
 		const link = document.createElement('a');
 		link.href = URL.createObjectURL(blob);
-		link.download = 'code.zip'; // 指定导出名称
+		link.download = 'code.txt'; // 指定导出名称
 		link.click();
 		URL.revokeObjectURL(link.href);
 		return true;

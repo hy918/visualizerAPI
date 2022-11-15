@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useReducer } from 'react';
-import { Input, Table, Divider, Button } from 'antd';
+import { Input, Table, Divider, Button, message } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
 import TipModal from '@/components/TipModal';
 import buildCodeService from '@/services/buildCodeService';
 import Details from './Details';
 import ModalAdd from './Add';
+import App from './Add/text';
 
 import './index.less';
 const reduer = (state, action) => ({ ...state, ...action });
@@ -68,7 +69,12 @@ const BuilderRoot = (props) => {
 							删除
 						</span>
 						<Divider type="vertical" />
-						<span className="tool-text">下载</span>
+						<span
+							className="tool-text"
+							onClick={() => download(record?.id)}
+						>
+							下载
+						</span>
 					</div>
 				);
 			},
@@ -90,17 +96,28 @@ const BuilderRoot = (props) => {
 		} catch (err) {}
 	};
 
-	//
+	// 切换页码
 	const pageChange = (page) => {
 		SettableState({ page });
 	};
 
-	//
-	const handleDel = () => {};
+	//删除
+	const handleDel = () => {
+		setDelModalVisible(false);
+		SettableState({ page: 1 });
+	};
+
+	// 下载
+	const download = (id) => {
+		try {
+			buildCodeService.download(id);
+		} catch (err) {
+			message.error(err);
+		}
+	};
 
 	return (
 		<div className="buildTableList">
-			<h2>Build</h2>
 			<Divider></Divider>
 			<div className="g-align-between">
 				<Button type="primary" onClick={() => setAddModalVisible(true)}>
