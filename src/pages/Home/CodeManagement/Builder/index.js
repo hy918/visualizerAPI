@@ -6,7 +6,6 @@ import TipModal from '@/components/TipModal';
 import buildCodeService from '@/services/buildCodeService';
 import Details from './Details';
 import ModalAdd from './Add';
-import App from './Add/text';
 
 import './index.less';
 const reduer = (state, action) => ({ ...state, ...action });
