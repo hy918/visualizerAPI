@@ -10,6 +10,7 @@ import ModalAdd from './Add';
 import './index.less';
 const reduer = (state, action) => ({ ...state, ...action });
 const initData = { page: 1, size: 10, total: 0, search_key: '' };
+
 const BuilderRoot = (props) => {
 	const { tableData, setTableData } = useState([]);
 	const [tableState, SettableState] = useReducer(reduer, initData);
@@ -101,9 +102,17 @@ const BuilderRoot = (props) => {
 	};
 
 	//删除
-	const handleDel = () => {
-		setDelModalVisible(false);
-		SettableState({ page: 1 });
+	const handleDel = async () => {
+		try {
+			const res = await buildCodeService.buildCodeDelete(optionId);
+			if (res?.code === 10200) {
+				message.success('删除成功');
+				setDelModalVisible(false);
+				SettableState({ page: 1 });
+				return;
+			}
+			message.error(res?.mag);
+		} catch (err) {}
 	};
 
 	// 下载
@@ -159,7 +168,7 @@ const BuilderRoot = (props) => {
 
 			<TipModal
 				title="删除"
-				content="确定要删除吗？数据将无法"
+				content="确定要删除吗？数据将无法回复请谨慎操作。"
 				visible={deleteVisible}
 				onCancel={() => setDelModalVisible(false)}
 				ok={handleDel}
