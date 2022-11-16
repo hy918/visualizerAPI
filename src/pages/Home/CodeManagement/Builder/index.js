@@ -14,7 +14,6 @@ const initData = { page: 1, size: 10, total: 10, search_key: '' };
 const BuilderRoot = (props) => {
 	const [tableData, setTableData] = useState([{ id: 1, class_name: '名字' }]); // 表格数据
 	const [tableState, SettableState] = useReducer(reduer, initData); // 筛查数据的status
-	const [searchValue, setSearchValue] = useState(''); // 搜索关键字
 	const [deleteVisible, setDelModalVisible] = useState(false); // 控制删除弹窗
 	const [detailVisible, setdetailModalVisible] = useState(false); // 控制详情弹窗
 	const [optionId, setOptionId] = useState(0); // 操作的id
@@ -81,10 +80,6 @@ const BuilderRoot = (props) => {
 	];
 
 	useEffect(() => {
-		getTableData(tableState);
-	}, [tableState]);
-
-	useEffect(() => {
 		getTableData({});
 	}, []);
 
@@ -95,13 +90,15 @@ const BuilderRoot = (props) => {
 			const res = await buildCodeService.buildCodeList(data);
 			if (res.code === 10200) {
 				setTableData(res?.result.data);
+				SettableState({ total: res?.result?.total });
 			}
 		} catch (err) {}
 	};
 
 	// 切换页码
-	const pageChange = (page) => {
-		SettableState({ page });
+	const pageChange = (page, size) => {
+		SettableState({ page, size });
+		getTableData(tableState);
 	};
 
 	//删除
@@ -121,10 +118,17 @@ const BuilderRoot = (props) => {
 	// 下载
 	const download = async (id) => {
 		try {
-			const res = await buildCodeService.buildCodeDownload(id);
+			await buildCodeService.buildCodeDownload(id);
 		} catch (err) {
 			message.error(err);
 		}
+	};
+
+	// 新建回调
+	const createCallback = () => {
+		setAddModalVisible(false);
+		SettableState({ page: 1 });
+		getTableData(tableState);
 	};
 
 	return (
@@ -139,17 +143,17 @@ const BuilderRoot = (props) => {
 					<Input
 						suffix={<SearchOutlined />}
 						placeholder="请输入搜索关键字"
-						onChange={(e) => setSearchValue(e?.target?.value)}
-						onPressEnter={(e) => {
-							SettableState({ search_key: e?.target?.value });
-						}}
+						onChange={(e) =>
+							SettableState({ search_key: e?.target?.value })
+						}
+						onPressEnter={(e) => getTableData(tableState)}
 						allowClear
 					></Input>
 					<Button
 						type="primary g-ml-2"
-						onClick={() =>
-							SettableState({ search_key: searchValue })
-						}
+						onClick={() => {
+							getTableData(tableState);
+						}}
 					>
 						搜索
 					</Button>
@@ -162,7 +166,15 @@ const BuilderRoot = (props) => {
 					className="g-mt-6"
 					rowKey={(record) => record?.id}
 					bordered
-					pagination={false}
+					// pagination={false}
+					pagination={{
+						current: tableState.page,
+						pageSize: tableState.size,
+						total: tableState.total,
+						onChange: pageChange,
+						showSizeChanger: true,
+						pageSizeOptions: [10, 20, 100, 500],
+					}}
 				/>
 			</div>
 			<TipModal
@@ -182,10 +194,7 @@ const BuilderRoot = (props) => {
 			<ModalAdd
 				isModalOpen={addModalvisible}
 				handleCancel={() => setAddModalVisible(false)}
-				ok={() => {
-					setAddModalVisible(false);
-					SettableState({ page: 1 });
-				}}
+				ok={() => createCallback()}
 			/>
 		</div>
 	);
