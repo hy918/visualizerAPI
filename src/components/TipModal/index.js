@@ -13,6 +13,7 @@ const TipModal = ({
 	cancelText,
 	ok,
 	onCancel,
+	footer = true,
 	...otherProps
 }) => {
 	const handleOk = (e) => {
@@ -29,7 +30,7 @@ const TipModal = ({
 			maskClosable={maskClosable}
 			destroyOnClose={destroyOnClose}
 			focusTriggerAfterClose={focusTriggerAfterClose}
-			onCancel={() => onCancal}
+			onCancel={onCancal}
 			{...otherProps}
 		>
 			<div>
@@ -40,18 +41,23 @@ const TipModal = ({
 					<div className="text-box">{title}</div>
 				</div>
 				<div className="my-modal-content">{content}</div>
-				<div className="my-modal-footer">
-					<Button className="cancel-btn" onClick={() => onCancel()}>
-						{cancelText || '取消'}
-					</Button>
-					<Button
-						className="ok-btn"
-						type="primary"
-						onClick={() => handleOk()}
-					>
-						{okText || '确定'}
-					</Button>
-				</div>
+				{footer ? (
+					<div className="my-modal-footer">
+						<Button
+							className="cancel-btn"
+							onClick={() => onCancel()}
+						>
+							{cancelText || '取消'}
+						</Button>
+						<Button
+							className="ok-btn"
+							type="primary"
+							onClick={() => handleOk()}
+						>
+							{okText || '确定'}
+						</Button>
+					</div>
+				) : null}
 			</div>
 		</Modal>
 	);

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import _ from 'lodash';
-import { Button, Form, Input, message, Modal, Tag } from 'antd';
+import { Button, Form, Input, message, Modal, Tag, Radio } from 'antd';
 import buildCodeService from '@/services/buildCodeService';
 import UploadFile from '@/components/UploadFile';
 
@@ -9,6 +9,7 @@ import './style.less';
 const ModalAdd = (props) => {
 	const [form] = Form.useForm();
 	const { isModalOpen, handleCancel, ok } = props;
+	const [fileOrString, setFileOrString] = useState('file');
 
 	const handleOK = () => {
 		form.validateFields().then(async (values) => {
@@ -27,6 +28,7 @@ const ModalAdd = (props) => {
 				}
 				message.error(res?.msg);
 			} catch (err) {
+				console.log('错误', err);
 				message.error('添加失败');
 			}
 		});
@@ -48,6 +50,7 @@ const ModalAdd = (props) => {
 				wrapClassName="addBuildModalRoot"
 				visible={isModalOpen}
 				footer={null}
+				destroyOnClose={true}
 				onCancel={() => handleCancel()}
 			>
 				<div className="modal-content">
@@ -55,6 +58,9 @@ const ModalAdd = (props) => {
 						form={form}
 						labelCol={{ span: 4 }}
 						wrapperCol={{ span: 20 }}
+						initialValues={{
+							code_type: fileOrString,
+						}}
 					>
 						<Form.Item
 							name="class_name"
@@ -68,36 +74,55 @@ const ModalAdd = (props) => {
 						>
 							<Input autoComplete="off"></Input>
 						</Form.Item>
-						<Form.Item
-							name="code_file"
-							label="代码文件"
-							extra="一次上传一个类型为txt或者java的文件"
-						>
-							<UploadFile
-								accept="text/plain,.java"
-								limitCount={1}
-								onCallBack={onCallBack}
-								renderBtn={(value) => {
-									return (
-										<div className="file-online">
-											{_.isEmpty(value) ? (
-												<span>请选择代码文件</span>
-											) : (
-												<Tag
-													className="tag-style"
-													closable
-													onClose={deleteFile}
-												>
-													<span className="file-name">
-														{value?.name}
-													</span>
-												</Tag>
-											)}
-										</div>
-									);
+						<Form.Item name="code_type" label="代码类型">
+							<Radio.Group
+								onChange={(e) => {
+									setFileOrString(e?.target?.value);
 								}}
-							/>
+							>
+								<Radio value="string"> 字符串 </Radio>
+								<Radio value="file"> 文件 </Radio>
+							</Radio.Group>
 						</Form.Item>
+						{fileOrString === 'string' ? (
+							<Form.Item name="code" label="代码字符串">
+								<Input.TextArea
+									placeholder="请输入代码字符串"
+									rows={6}
+								></Input.TextArea>
+							</Form.Item>
+						) : (
+							<Form.Item
+								name="code_file"
+								label="代码文件"
+								extra="一次上传一个类型为txt或者java的文件"
+							>
+								<UploadFile
+									accept="text/plain,.java"
+									limitCount={1}
+									onCallBack={onCallBack}
+									renderBtn={(value) => {
+										return (
+											<div className="file-online">
+												{_.isEmpty(value) ? (
+													<span>请选择代码文件</span>
+												) : (
+													<Tag
+														className="tag-style"
+														closable
+														onClose={deleteFile}
+													>
+														<span className="file-name">
+															{value?.name}
+														</span>
+													</Tag>
+												)}
+											</div>
+										);
+									}}
+								/>
+							</Form.Item>
+						)}
 					</Form>
 				</div>
 				<div className="modal-footer">

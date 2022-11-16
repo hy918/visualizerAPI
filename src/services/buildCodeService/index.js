@@ -13,14 +13,14 @@ const buildCodeList = async (data) => {
  * 获取基础信息
  */
 const buildCodeInfo = async (id) => {
-	return await apiServerice.axiosGet(`${API.buildCodeInfo}/${id}`);
+	return await apiServerice.axiosGetData(API.buildCodeInfo, id);
 };
 
 /**
  * 编辑
  */
-const buildCodeEdit = async (id, data) => {
-	return await apiServerice.axiosPost(`${API.buildCodeEdit}/${id}`, data);
+const buildCodeEdit = async (data) => {
+	return await apiServerice.axiosPost(API.buildCodeEdit, data);
 };
 
 /**
@@ -56,6 +56,7 @@ const buildCodeDownload = async (id) => {
 		if (!result) return;
 		// 报错
 		if (result.type === 'application/json') {
+			console.log('gfggf');
 			const fileReader = new FileReader();
 			const blob2 = new Blob([result], {
 				type: 'application/json',
@@ -69,7 +70,7 @@ const buildCodeDownload = async (id) => {
 			};
 			return false;
 		}
-		// 正常情况下载zip
+		// 正常情况下载txt文件
 		const csvType = 'application/zip;charset-UTF-8';
 		const blob = new Blob([result], { type: csvType }); // 指定格式
 		const link = document.createElement('a');

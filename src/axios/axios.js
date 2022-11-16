@@ -81,9 +81,9 @@ service.interceptors.response.use(
 			requestList.findIndex((item) => item === request),
 			1
 		);
-		if (response.data.code !== 10200) {
-			message.error(response.data.msg);
-		}
+		// if (response.data.code !== 10200) {
+		// 	message.error(response.data.msg);
+		// }
 		return response;
 	},
 	(error) => {

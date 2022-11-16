@@ -12,14 +12,14 @@ const ormCodeList = async (data) => {
  * 获取基础信息
  */
 const ormCodeInfo = async (id) => {
-	return await apiServerice.axiosGet(`${API.ormCodeInfo}/${id}`);
+	return await apiServerice.axiosGetData(API.ormCodeInfo, id);
 };
 
 /**
  * 编辑
  */
-const ormCodeEdit = async (id, data) => {
-	return await apiServerice.axiosPost(`${API.ormCodeEdit}/${id}`, data);
+const ormCodeEdit = async (data) => {
+	return await apiServerice.axiosPost(API.ormCodeEdit, data);
 };
 
 /**

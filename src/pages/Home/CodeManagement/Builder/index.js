@@ -9,27 +9,27 @@ import ModalAdd from './Add';
 
 import './index.less';
 const reduer = (state, action) => ({ ...state, ...action });
-const initData = { page: 1, size: 10, total: 0, search_key: '' };
+const initData = { page: 1, size: 10, total: 10, search_key: '' };
 
 const BuilderRoot = (props) => {
-	const { tableData, setTableData } = useState([]);
-	const [tableState, SettableState] = useReducer(reduer, initData);
-	const [searchValue, setSearchValue] = useState('');
-	const [deleteVisible, setDelModalVisible] = useState(false);
-	const [detailVisible, setdetailModalVisible] = useState(false);
+	const [tableData, setTableData] = useState([{ id: 1, class_name: '名字' }]); // 表格数据
+	const [tableState, SettableState] = useReducer(reduer, initData); // 筛查数据的status
+	const [searchValue, setSearchValue] = useState(''); // 搜索关键字
+	const [deleteVisible, setDelModalVisible] = useState(false); // 控制删除弹窗
+	const [detailVisible, setdetailModalVisible] = useState(false); // 控制详情弹窗
 	const [optionId, setOptionId] = useState(0); // 操作的id
-	const [addModalvisible, setAddModalVisible] = useState(false);
+	const [addModalvisible, setAddModalVisible] = useState(false); // 新建弹窗
 
 	const columns = [
 		{
 			title: '名字',
-			dataIndex: 'name',
-			key: 'name',
+			dataIndex: 'class_name',
+			key: 'class_name',
 		},
 		{
 			title: '字段列表',
-			dataIndex: 'list',
-			key: 'list',
+			dataIndex: 'fields',
+			key: 'fields',
 		},
 		{
 			title: '文件名称',
@@ -43,8 +43,7 @@ const BuilderRoot = (props) => {
 		},
 		{
 			title: '操作',
-			dataIndex: '',
-			key: 'x',
+			key: 'action',
 			with: 200,
 			render: (text, record) => {
 				return (
@@ -85,13 +84,17 @@ const BuilderRoot = (props) => {
 		getTableData(tableState);
 	}, [tableState]);
 
+	useEffect(() => {
+		getTableData({});
+	}, []);
+
 	// 获取列表数据
 	const getTableData = async ({ page = 1, search_key = '', size = 10 }) => {
 		try {
 			const data = { page, size, search_key };
 			const res = await buildCodeService.buildCodeList(data);
 			if (res.code === 10200) {
-				setTableData(res?.result?.data);
+				setTableData(res?.result.data);
 			}
 		} catch (err) {}
 	};
@@ -104,7 +107,7 @@ const BuilderRoot = (props) => {
 	//删除
 	const handleDel = async () => {
 		try {
-			const res = await buildCodeService.buildCodeDelete(optionId);
+			const res = await buildCodeService.buildCodeDelete({ optionId });
 			if (res?.code === 10200) {
 				message.success('删除成功');
 				setDelModalVisible(false);
@@ -116,9 +119,9 @@ const BuilderRoot = (props) => {
 	};
 
 	// 下载
-	const download = (id) => {
+	const download = async (id) => {
 		try {
-			buildCodeService.download(id);
+			const res = await buildCodeService.buildCodeDownload(id);
 		} catch (err) {
 			message.error(err);
 		}
@@ -126,6 +129,7 @@ const BuilderRoot = (props) => {
 
 	return (
 		<div className="buildTableList">
+			<h2>Builder</h2>
 			<Divider></Divider>
 			<div className="g-align-between">
 				<Button type="primary" onClick={() => setAddModalVisible(true)}>
@@ -134,6 +138,7 @@ const BuilderRoot = (props) => {
 				<div className="g-flex">
 					<Input
 						suffix={<SearchOutlined />}
+						placeholder="请输入搜索关键字"
 						onChange={(e) => setSearchValue(e?.target?.value)}
 						onPressEnter={(e) => {
 							SettableState({ search_key: e?.target?.value });
@@ -150,22 +155,16 @@ const BuilderRoot = (props) => {
 					</Button>
 				</div>
 			</div>
-			<Table
-				columns={columns}
-				dataSource={tableData}
-				className="g-mt-6"
-				rowKey={(record) => record?.id}
-				bordered
-				pagination={{
-					current: tableState.page,
-					pageSize: tableState.size,
-					total: tableState.total,
-					onChange: pageChange,
-					showSizeChanger: true,
-					pageSizeOptions: [10, 20, 100, 500],
-				}}
-			/>
-
+			<div>
+				<Table
+					columns={columns}
+					dataSource={tableData}
+					className="g-mt-6"
+					rowKey={(record) => record?.id}
+					bordered
+					pagination={false}
+				/>
+			</div>
 			<TipModal
 				title="删除"
 				content="确定要删除吗？数据将无法回复请谨慎操作。"
@@ -174,14 +173,18 @@ const BuilderRoot = (props) => {
 				ok={handleDel}
 			/>
 
-			<Details id={optionId} visible={detailVisible} />
+			<Details
+				id={optionId}
+				editVisible={detailVisible}
+				onCancal={() => setdetailModalVisible(false)}
+			/>
 
 			<ModalAdd
 				isModalOpen={addModalvisible}
 				handleCancel={() => setAddModalVisible(false)}
 				ok={() => {
 					setAddModalVisible(false);
-					setTableData({ page: 1 });
+					SettableState({ page: 1 });
 				}}
 			/>
 		</div>
