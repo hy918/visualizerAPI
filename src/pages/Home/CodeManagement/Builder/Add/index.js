@@ -105,7 +105,9 @@ const ModalAdd = (props) => {
 										return (
 											<div className="file-online">
 												{_.isEmpty(value) ? (
-													<span>请选择代码文件</span>
+													<span className="placehold">
+														请选择代码文件
+													</span>
 												) : (
 													<Tag
 														className="tag-style"
