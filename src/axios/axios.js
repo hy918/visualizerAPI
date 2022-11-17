@@ -125,7 +125,11 @@ const request = (url, params, config, method, headers = {}) => {
 		service[method](url, params, Object.assign({}, config))
 			.then(
 				(response) => {
-					response && resolve(response.data);
+				  if (url.indexOf('download')!==-1){
+            response && resolve(response);
+          }else {
+            response && resolve(response.data);
+          }
 				},
 				(err) => {
 					if (err.Cancel) {

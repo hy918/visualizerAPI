@@ -72,10 +72,10 @@ const buildCodeDownload = async (id) => {
 		}
 		// 正常情况下载txt文件
 		const csvType = 'application/zip;charset-UTF-8';
-		const blob = new Blob([result], { type: csvType }); // 指定格式
+		const blob = new Blob([result.data], { type: csvType }); // 指定格式
 		const link = document.createElement('a');
 		link.href = URL.createObjectURL(blob);
-		link.download = 'code.txt'; // 指定导出名称
+		link.download = result.headers['content-disposition'].split("=")[1]; // 指定导出名称
 		link.click();
 		URL.revokeObjectURL(link.href);
 		return true;
