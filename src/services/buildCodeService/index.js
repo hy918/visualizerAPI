@@ -55,10 +55,9 @@ const buildCodeDownload = async (id) => {
 
 		if (!result) return;
 		// 报错
-		if (result.type === 'application/json') {
-			console.log('gfggf');
+		if (result?.data?.type === 'application/json') {
 			const fileReader = new FileReader();
-			const blob2 = new Blob([result], {
+			const blob2 = new Blob([result?.data], {
 				type: 'application/json',
 			});
 			fileReader.readAsText(blob2, 'utf-8');
@@ -70,12 +69,12 @@ const buildCodeDownload = async (id) => {
 			};
 			return false;
 		}
-		// 正常情况下载txt文件
+		// 正常情况下载文件
 		const csvType = 'application/zip;charset-UTF-8';
-		const blob = new Blob([result.data], { type: csvType }); // 指定格式
+		const blob = new Blob([result?.data], { type: csvType }); // 指定格式
 		const link = document.createElement('a');
 		link.href = URL.createObjectURL(blob);
-		link.download = result.headers['content-disposition'].split("=")[1]; // 指定导出名称
+		link.download = result.headers['content-disposition'].split('=')[1]; // 指定导出名称
 		link.click();
 		URL.revokeObjectURL(link.href);
 		return true;
