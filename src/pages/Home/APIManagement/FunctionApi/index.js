@@ -34,6 +34,7 @@ const List1 = () => {
 			page: currentPage,
 			size: pageSize,
 			keyword: searchValue,
+			ids: '#23:0',
 		};
 		try {
 			const res = await funcApiServer.funcApisList(data);

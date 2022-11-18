@@ -1,13 +1,15 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import Builder from './Builder';
+// import Builder from './Builder';
+import BuilderTab from './BuilderTab';
+
 import OrmList from './Orm';
 const Copy = () => {
   return (
-    <div>
+    <div className='g-ml-6'>
       <Routes>
-        <Route path="/builder" element={<Builder />} />
+        <Route path="/builder" element={<BuilderTab />} />
         <Route path="/orm" element={<OrmList />} />
       </Routes>
     </div>
