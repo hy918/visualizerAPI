@@ -109,18 +109,10 @@ const Information = (props) => {
 					</div>
 					{apiInfor?.[objkey]?.edit ? (
 						<div className="btn-box">
-							<Button
-								onClick={() => onEdit(objkey, inputValue)}
-								type="primary"
-								className="ok-btn"
-							>
+							<Button onClick={() => onEdit(objkey, inputValue)} type="primary" className="ok-btn">
 								确定
 							</Button>
-							<Button
-								onClick={() => visibleChange(objkey, false)}
-							>
-								取消
-							</Button>
+							<Button onClick={() => visibleChange(objkey, false)}>取消</Button>
 						</div>
 					) : (
 						<img
@@ -159,34 +151,18 @@ const Information = (props) => {
 											className="text-area"
 											value={description}
 											onChange={(e) => {
-												setDescription(
-													e?.target?.value
-												);
+												setDescription(e?.target?.value);
 											}}
 										/>
 										<div className="btn-box">
 											<Button
-												onClick={() =>
-													onEdit(
-														'description',
-														description
-													)
-												}
+												onClick={() => onEdit('description', description)}
 												type="primary"
 												className="ok-btn"
 											>
 												确定
 											</Button>
-											<Button
-												onClick={() =>
-													visibleChange(
-														'description',
-														false
-													)
-												}
-											>
-												取消
-											</Button>
+											<Button onClick={() => visibleChange('description', false)}>取消</Button>
 										</div>
 									</>
 								) : (
@@ -198,9 +174,7 @@ const Information = (props) => {
 									src={editIcon}
 									alt=""
 									className="hide-img show"
-									onClick={() =>
-										visibleChange('description', true)
-									}
+									onClick={() => visibleChange('description', true)}
 								/>
 							)}
 						</div>
@@ -214,10 +188,7 @@ const Information = (props) => {
 				<div className="left">
 					<ItemBox label="父级名称：" objkey="father_name" />
 					{type === 'function' ? (
-						<ItemBox
-							label="父级描述："
-							objkey="father_description"
-						/>
+						<ItemBox label="父级描述：" objkey="father_description" />
 					) : (
 						<ItemBox label="父级路径：" objkey="father_path" />
 					)}

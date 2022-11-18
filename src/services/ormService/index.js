@@ -5,14 +5,14 @@ import apiServerice from '@/axios/axios.js';
  * 获取列表
  */
 const ormCodeList = async (data) => {
-	return await apiServerice.axiosGetData(API.ormCodeList, data);
+	return await apiServerice.axiosGet(API.ormCodeList, data);
 };
 
 /**
  * 获取基础信息
  */
 const ormCodeInfo = async (id) => {
-	return await apiServerice.axiosGetData(API.ormCodeInfo, id);
+	return await apiServerice.axiosGet(API.ormCodeInfo, id);
 };
 
 /**

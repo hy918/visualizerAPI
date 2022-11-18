@@ -75,11 +75,7 @@ const ModalDetail = (props) => {
 						{/* 编辑代码 */}
 						<DoubleRightOutlined />
 					</Button>
-					<Form.Item
-						name="target_code"
-						label="生成的代码"
-						className="code"
-					>
+					<Form.Item name="target_code" label="生成的代码" className="code">
 						<Input.TextArea disabled rows={16}></Input.TextArea>
 					</Form.Item>
 				</div>

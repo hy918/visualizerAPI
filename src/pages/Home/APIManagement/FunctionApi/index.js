@@ -223,11 +223,7 @@ const List1 = () => {
 				getTableData={getTableData}
 			/>
 
-			<ModalCreate
-				isModalOpen={addModalVisible}
-				handleCancel={closeAddModal}
-				getTableData={getTableData}
-			/>
+			<ModalCreate isModalOpen={addModalVisible} handleCancel={closeAddModal} getTableData={getTableData} />
 		</div>
 	);
 };

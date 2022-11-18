@@ -103,8 +103,7 @@ const List2 = () => {
 			key: 'belong_func_apis',
 			// defaultSortOrder: 'descend',
 			sorter: {
-				compare: (a, b) =>
-					a.belong_func_apis.localeCompare(b.belong_func_apis),
+				compare: (a, b) => a.belong_func_apis.localeCompare(b.belong_func_apis),
 				multiple: 1,
 			},
 		},
@@ -203,11 +202,7 @@ const List2 = () => {
 				getTableData={getTableData}
 			/>
 
-			<ModalCreate
-				isModalOpen={addModalVisible}
-				handleCancel={closeAddModal}
-				getTableData={getTableData}
-			/>
+			<ModalCreate isModalOpen={addModalVisible} handleCancel={closeAddModal} getTableData={getTableData} />
 		</div>
 	);
 };

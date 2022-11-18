@@ -86,17 +86,10 @@ const ModalAdd = (props) => {
 						</Form.Item>
 						{fileOrString === 'string' ? (
 							<Form.Item name="code" label="代码字符串">
-								<Input.TextArea
-									placeholder="请输入代码字符串"
-									rows={6}
-								></Input.TextArea>
+								<Input.TextArea placeholder="请输入代码字符串" rows={6}></Input.TextArea>
 							</Form.Item>
 						) : (
-							<Form.Item
-								name="code_file"
-								label="代码文件"
-								extra="一次上传一个类型为txt或者java的文件"
-							>
+							<Form.Item name="code_file" label="代码文件" extra="一次上传一个类型为txt或者java的文件">
 								<UploadFile
 									accept="text/plain,.java"
 									limitCount={1}
@@ -105,18 +98,10 @@ const ModalAdd = (props) => {
 										return (
 											<div className="file-online">
 												{_.isEmpty(value) ? (
-													<span className="placehold">
-														请选择代码文件
-													</span>
+													<span className="placehold">请选择代码文件</span>
 												) : (
-													<Tag
-														className="tag-style"
-														closable
-														onClose={deleteFile}
-													>
-														<span className="file-name">
-															{value?.name}
-														</span>
+													<Tag className="tag-style" closable onClose={deleteFile}>
+														<span className="file-name">{value?.name}</span>
 													</Tag>
 												)}
 											</div>
@@ -129,11 +114,7 @@ const ModalAdd = (props) => {
 				</div>
 				<div className="modal-footer">
 					<Button onClick={() => handleCancel()}>取消</Button>
-					<Button
-						type="primary"
-						className="g-ml-2"
-						onClick={() => handleOK()}
-					>
+					<Button type="primary" className="g-ml-2" onClick={() => handleOK()}>
 						确定
 					</Button>
 				</div>

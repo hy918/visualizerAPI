@@ -5,15 +5,13 @@ import apiServerice from '@/axios/axios.js';
 /**
  * 获取列表
  */
-const buildCodeList = async (data) => {
-	return await apiServerice.axiosGetData(API.buildCodeList, data);
-};
+const buildCodeList = async (data) => await apiServerice.axiosGet(API.buildCodeList, data);
 
 /**
  * 获取基础信息
  */
 const buildCodeInfo = async (id) => {
-	return await apiServerice.axiosGetData(API.buildCodeInfo, id);
+	return await apiServerice.axiosGet(API.buildCodeInfo, id);
 };
 
 /**
@@ -34,10 +32,7 @@ const buildCodeDelete = async (id) => {
  * 添加
  */
 const buildCodeCreate = async (data) => {
-	return await apiServerice.axiosPost(API.buildCodeCreate, {
-		type: 'file',
-		...data,
-	});
+	return await apiServerice.axiosPost(API.buildCodeCreate, { type: 'file', ...data });
 };
 
 /**
@@ -45,21 +40,13 @@ const buildCodeCreate = async (data) => {
  */
 const buildCodeDownload = async (id) => {
 	try {
-		const result = await apiServerice.axiosGet(
-			`${API.buildCodeDownload}/${id}`,
-			{},
-			{
-				responseType: 'blob',
-			}
-		);
+		const result = await apiServerice.axiosGet(`${API.buildCodeDownload}/${id}`, {}, { responseType: 'blob' });
 
 		if (!result) return;
 		// 报错
 		if (result?.data?.type === 'application/json') {
 			const fileReader = new FileReader();
-			const blob2 = new Blob([result?.data], {
-				type: 'application/json',
-			});
+			const blob2 = new Blob([result?.data], { type: 'application/json' });
 			fileReader.readAsText(blob2, 'utf-8');
 
 			fileReader.onload = function () {

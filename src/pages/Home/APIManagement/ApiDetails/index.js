@@ -11,9 +11,7 @@ const ApiDetail = (props) => {
 	const type = getParam('type');
 	return (
 		<div className="apiDetailRoot">
-			<div className="infor-title">
-				{type === 'basic' ? '基础API / 详情' : '功能API / 详情'}
-			</div>
+			<div className="infor-title">{type === 'basic' ? '基础API / 详情' : '功能API / 详情'}</div>
 			<Divider />
 			<Information />
 			<TableList />

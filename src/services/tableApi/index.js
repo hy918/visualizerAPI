@@ -6,16 +6,16 @@ const importTable = async (data) => {
 };
 
 const tmpTableList = async (data) => {
-	return await apiServerice.axiosGetData(API.tableImportedList, data);
+	return await apiServerice.axiosGet(API.tableImportedList, data);
 };
 
 const tmpMd5s = async () => {
-    return await apiServerice.axiosGetData(API.tableImportMd5s,{})
-}
+	return await apiServerice.axiosGet(API.tableImportMd5s, {});
+};
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-    importTable,
-    tmpTableList,
-    tmpMd5s
+	importTable,
+	tmpTableList,
+	tmpMd5s,
 };

@@ -55,13 +55,7 @@ const Login = (props) => {
 						<Input
 							className="input"
 							placeholder="请输入用户名"
-							prefix={
-								<img
-									src={userImage}
-									alt="用户名"
-									className="icon"
-								/>
-							}
+							prefix={<img src={userImage} alt="用户名" className="icon" />}
 						/>
 					</Form.Item>
 
@@ -78,21 +72,11 @@ const Login = (props) => {
 						<Input.Password
 							className="input"
 							placeholder="请输入密码"
-							prefix={
-								<img
-									src={passImage}
-									alt="密码"
-									className="icon"
-								/>
-							}
+							prefix={<img src={passImage} alt="密码" className="icon" />}
 						/>
 					</Form.Item>
 					<Form.Item>
-						<Button
-							type="primary"
-							htmlType="submit"
-							className="summit-btn"
-						>
+						<Button type="primary" htmlType="submit" className="summit-btn">
 							登录
 						</Button>
 					</Form.Item>

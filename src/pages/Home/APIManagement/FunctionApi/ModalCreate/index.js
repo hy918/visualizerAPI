@@ -43,10 +43,7 @@ const ModalCreate = (props) => {
 								},
 							]}
 						>
-							<Input
-								placeholder="请输入名字"
-								autoComplete="off"
-							></Input>
+							<Input placeholder="请输入名字" autoComplete="off"></Input>
 						</Form.Item>
 						<Form.Item
 							name="father_name"
@@ -58,10 +55,7 @@ const ModalCreate = (props) => {
 								},
 							]}
 						>
-							<Input
-								placeholder="请输入父级名称"
-								autoComplete="off"
-							></Input>
+							<Input placeholder="请输入父级名称" autoComplete="off"></Input>
 						</Form.Item>
 						<Form.Item
 							name="type"
@@ -88,20 +82,13 @@ const ModalCreate = (props) => {
 								},
 							]}
 						>
-							<Input.TextArea
-								placeholder=""
-								autoComplete="off"
-							></Input.TextArea>
+							<Input.TextArea placeholder="" autoComplete="off"></Input.TextArea>
 						</Form.Item>
 					</Form>
 				</div>
 				<div className="modal-footer">
 					<Button onClick={() => handleCancel()}>取消</Button>
-					<Button
-						type="primary"
-						className="ok-btn"
-						onClick={() => handleOK()}
-					>
+					<Button type="primary" className="ok-btn" onClick={() => handleOK()}>
 						确定
 					</Button>
 				</div>

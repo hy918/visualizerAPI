@@ -5,7 +5,7 @@ import apiServerice from '@/axios/axios.js';
  * 获取功能api列表
  */
 const basicApiList = async (data) => {
-	return await apiServerice.axiosGetData(API.basicApiList, data);
+	return await apiServerice.axiosGet(API.basicApiList, data);
 };
 
 /**
@@ -40,10 +40,7 @@ const basicApiAdd = async (data) => {
  * 获取功能api列表对应基础api
  */
 const basicApiBaseList = async (id, data) => {
-	return await apiServerice.axiosGetData(
-		`${API.basicApiBaseList}/${id}`,
-		data
-	);
+	return await apiServerice.axiosGet(`${API.basicApiBaseList}/${id}`, data);
 };
 
 /**

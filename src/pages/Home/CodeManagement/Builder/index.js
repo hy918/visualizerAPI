@@ -67,10 +67,7 @@ const BuilderRoot = (props) => {
 							删除
 						</span>
 						<Divider type="vertical" />
-						<span
-							className="tool-text"
-							onClick={() => download(record?.id)}
-						>
+						<span className="tool-text" onClick={() => download(record?.id)}>
 							下载
 						</span>
 					</div>
@@ -143,9 +140,7 @@ const BuilderRoot = (props) => {
 					<Input
 						suffix={<SearchOutlined />}
 						placeholder="请输入搜索关键字"
-						onChange={(e) =>
-							SettableState({ search_key: e?.target?.value })
-						}
+						onChange={(e) => SettableState({ search_key: e?.target?.value })}
 						onPressEnter={(e) => getTableData(tableState)}
 						allowClear
 					></Input>
@@ -185,11 +180,7 @@ const BuilderRoot = (props) => {
 				ok={handleDel}
 			/>
 
-			<Details
-				id={optionId}
-				editVisible={detailVisible}
-				onCancal={() => setdetailModalVisible(false)}
-			/>
+			<Details id={optionId} editVisible={detailVisible} onCancal={() => setdetailModalVisible(false)} />
 
 			<ModalAdd
 				isModalOpen={addModalvisible}

@@ -43,17 +43,10 @@ const TipModal = ({
 				<div className="my-modal-content">{content}</div>
 				{footer ? (
 					<div className="my-modal-footer">
-						<Button
-							className="cancel-btn"
-							onClick={() => onCancel()}
-						>
+						<Button className="cancel-btn" onClick={() => onCancel()}>
 							{cancelText || '取消'}
 						</Button>
-						<Button
-							className="ok-btn"
-							type="primary"
-							onClick={() => handleOk()}
-						>
+						<Button className="ok-btn" type="primary" onClick={() => handleOk()}>
 							{okText || '确定'}
 						</Button>
 					</div>

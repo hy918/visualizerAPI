@@ -50,17 +50,11 @@ const TableList = () => {
 			render: (text, record) => {
 				return (
 					<div>
-						<span
-							className="tool-text"
-							onClick={() => relation(record.id, false)}
-						>
+						<span className="tool-text" onClick={() => relation(record.id, false)}>
 							移除关联
 						</span>
 						<Divider type="vertical" />
-						<span
-							className="tool-text"
-							onClick={() => relation(record.id, true)}
-						>
+						<span className="tool-text" onClick={() => relation(record.id, true)}>
 							增加关联
 						</span>
 					</div>
@@ -109,17 +103,11 @@ const TableList = () => {
 			render: (text, record) => {
 				return (
 					<div>
-						<span
-							className="tool-text"
-							onClick={() => relation(record.id, false)}
-						>
+						<span className="tool-text" onClick={() => relation(record.id, false)}>
 							移除关联
 						</span>
 						<Divider type="vertical" />
-						<span
-							className="tool-text"
-							onClick={() => relation(record.id, true)}
-						>
+						<span className="tool-text" onClick={() => relation(record.id, true)}>
 							增加关联
 						</span>
 					</div>

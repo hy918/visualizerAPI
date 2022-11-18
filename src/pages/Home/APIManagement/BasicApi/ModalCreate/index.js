@@ -54,13 +54,9 @@ const ModalCreate = (props) => {
 							<Select>
 								<Select.Option value="GET">GET</Select.Option>
 								<Select.Option value="POST">POST</Select.Option>
-								<Select.Option value="DELETE">
-									DELETE
-								</Select.Option>
+								<Select.Option value="DELETE">DELETE</Select.Option>
 								<Select.Option value="PUT">PUT</Select.Option>
-								<Select.Option value="PATCH">
-									PATCH
-								</Select.Option>
+								<Select.Option value="PATCH">PATCH</Select.Option>
 							</Select>
 						</Form.Item>
 						<Form.Item
@@ -73,10 +69,7 @@ const ModalCreate = (props) => {
 								},
 							]}
 						>
-							<Input
-								placeholder="请输入http路径"
-								autoComplete="on"
-							></Input>
+							<Input placeholder="请输入http路径" autoComplete="on"></Input>
 						</Form.Item>
 						<Form.Item
 							name="father_name"
@@ -88,10 +81,7 @@ const ModalCreate = (props) => {
 								},
 							]}
 						>
-							<Input
-								placeholder="请输入父级名字，若没有父级，则写入--"
-								autoComplete="off"
-							></Input>
+							<Input placeholder="请输入父级名字，若没有父级，则写入--" autoComplete="off"></Input>
 						</Form.Item>
 						<Form.Item
 							name="type"
@@ -124,11 +114,7 @@ const ModalCreate = (props) => {
 				</div>
 				<div className="modal-footer">
 					<Button onClick={() => handleCancel()}>取消</Button>
-					<Button
-						type="primary"
-						className="ok-btn"
-						onClick={() => handleOK()}
-					>
+					<Button type="primary" className="ok-btn" onClick={() => handleOK()}>
 						确定
 					</Button>
 				</div>

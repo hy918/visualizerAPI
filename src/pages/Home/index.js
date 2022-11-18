@@ -29,19 +29,6 @@ class Home extends React.Component {
 		return window.location?.pathname;
 	};
 
-	aa = () => {
-		// 定义循环的数数组，js用let定义
-		// let arr = [
-		// 	{ name: '1', src: 'http://' },
-		// 	{ name: '2', src: 'http://' },
-		// 	{ name: '3', src: 'http://' },
-		// ];
-		// opportunity = ['<a href=`${}`>点击</a>', '<a href=`` ></a>'];
-		// for (let i = 0; i < arr.length; i++) {
-		// 	opportunity.push();
-		// }
-	};
-
 	render() {
 		const menuKey = this.setState.menuKey || this.getUrl();
 		return (
@@ -60,12 +47,7 @@ class Home extends React.Component {
 					</div>
 				</Header>
 				<Layout className="site-layout">
-					<Sider
-						trigger={null}
-						collapsible
-						collapsed={this.state.collapsed}
-						style={{ background: '#fff' }}
-					>
+					<Sider trigger={null} collapsible collapsed={this.state.collapsed} style={{ background: '#fff' }}>
 						<div className="logo" />
 						<Menu
 							theme="linght"
@@ -85,9 +67,7 @@ class Home extends React.Component {
 											return (
 												<Menu.Item key={child?.key}>
 													<Link to={child?.key}>
-														<span>
-															{child?.title}
-														</span>
+														<span>{child?.title}</span>
 													</Link>
 												</Menu.Item>
 											);
@@ -99,27 +79,11 @@ class Home extends React.Component {
 					</Sider>
 					<Content>
 						<Routes>
-							<Route
-								path="/apiManage/*"
-								element={<ApiManageMent />}
-							/>
-							<Route
-								path="/dataManage/*"
-								element={<DataManageMent />}
-							/>
-							<Route
-								path="/process/*"
-								element={<ProcessList />}
-							/>
-							<Route
-								path="/codeManage/*"
-								element={<CodeManageMent />}
-							/>
-							<Route
-								exact
-								path="*"
-								element={<Navigate to="/apiManage/*" />}
-							/>
+							<Route path="/apiManage/*" element={<ApiManageMent />} />
+							<Route path="/dataManage/*" element={<DataManageMent />} />
+							<Route path="/process/*" element={<ProcessList />} />
+							<Route path="/codeManage/*" element={<CodeManageMent />} />
+							<Route exact path="*" element={<Navigate to="/apiManage/*" />} />
 						</Routes>
 					</Content>
 				</Layout>

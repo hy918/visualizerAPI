@@ -3,15 +3,7 @@ import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
 
 const UploadFile = (props) => {
-	const {
-		value,
-		accept,
-		limitCount,
-		multiple,
-		onCallBack,
-		renderBtn = null,
-		otherConfig = {},
-	} = props;
+	const { value, accept, limitCount, multiple, onCallBack, renderBtn = null, otherConfig = {} } = props;
 	const [fileList, setFileList] = useState([]);
 
 	useEffect(() => {
@@ -38,11 +30,7 @@ const UploadFile = (props) => {
 			fileList={[]}
 			{...otherConfig}
 		>
-			{renderBtn
-				? _.isFunction(renderBtn)
-					? renderBtn(value)
-					: renderBtn
-				: '上传'}
+			{renderBtn ? (_.isFunction(renderBtn) ? renderBtn(value) : renderBtn) : '上传'}
 		</Upload>
 	);
 };

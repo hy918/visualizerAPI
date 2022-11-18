@@ -22,8 +22,7 @@ const service = axios.create({
 // 请求拦截处理
 service.interceptors.request.use(
 	(config) => {
-		const request =
-			JSON.stringify(config.url) + JSON.stringify(config.data);
+		const request = JSON.stringify(config.url) + JSON.stringify(config.data);
 
 		config.cancelToken = new CancelToken((cancel) => {
 			sources[request] = cancel;
@@ -51,9 +50,7 @@ service.interceptors.request.use(
 				if (elseData.hasOwnProperty(key)) {
 					const item = elseData[key];
 					if (key === 'file' && Array.isArray(item)) {
-						_.forEach(elseData[key], (d) =>
-							formData.append('file', d)
-						);
+						_.forEach(elseData[key], (d) => formData.append('file', d));
 					} else {
 						formData.append(key, item);
 					}
@@ -73,9 +70,7 @@ service.interceptors.request.use(
 // 响应拦截处理
 service.interceptors.response.use(
 	(response) => {
-		const request =
-			JSON.stringify(response.config.url) +
-			JSON.stringify(response.config.data);
+		const request = JSON.stringify(response.config.url) + JSON.stringify(response.config.data);
 		// 获取响应后，请求列表里面去除这个值
 		requestList.splice(
 			requestList.findIndex((item) => item === request),
@@ -104,7 +99,7 @@ service.interceptors.response.use(
 			return error;
 		}
 
-		const { status, data: { Code, ErrorCode, code } = {} } = error.response;
+		const { status, data: { code } = {} } = error.response;
 
 		if (status === 500 || status === 403) {
 			message.error(error && (error.message || error.Message));
@@ -122,14 +117,16 @@ service.interceptors.response.use(
 // axios 对请求的处理
 const request = (url, params, config, method, headers = {}) => {
 	return new Promise((resolve, reject) => {
-		service[method](url, params, Object.assign({}, config))
+		const body = method === 'get' ? { params } : Array.isArray(params) ? [...params] : { ...params };
+		console.log(body);
+		service[method](url, body, Object.assign({}, config))
 			.then(
 				(response) => {
-				  if (url.indexOf('download')!==-1){
-            response && resolve(response);
-          }else {
-            response && resolve(response.data);
-          }
+					if (url.indexOf('download') !== -1) {
+						response && resolve(response);
+					} else {
+						response && resolve(response.data);
+					}
 				},
 				(err) => {
 					if (err.Cancel) {
@@ -149,10 +146,10 @@ const axiosGet = (url, params, config = {}, headers = {}) => {
 	return request(url, params, config, 'get', headers);
 };
 
-// get方法 带参数
+// get方法 手动拼接参数
 const axiosGetData = (url, params, config = {}, headers = {}) => {
 	url = url + paramsToQueryString(params);
-	return request(url, undefined, config, 'get', headers);
+	return request(url, params, config, 'get', headers);
 };
 
 // delete 方法
