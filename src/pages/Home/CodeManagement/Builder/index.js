@@ -101,7 +101,7 @@ const BuilderRoot = (props) => {
 	//删除
 	const handleDel = async () => {
 		try {
-			const res = await buildCodeService.buildCodeDelete({ optionId });
+			const res = await buildCodeService.buildCodeDelete( optionId );
 			if (res?.code === 10200) {
 				message.success('删除成功');
 				setDelModalVisible(false);
