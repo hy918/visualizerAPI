@@ -1,36 +1,39 @@
 import React, { useEffect, useState, useReducer } from 'react';
-import { Input, Table, Divider, Button } from 'antd';
+import { Input, Table, Divider, Button, message } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
+import ormService from '@/services/ormService';
 import TipModal from '@/components/TipModal';
 import Details from './Details';
+import CreateModal from './Add';
 
 import './style.less';
 const reduer = (state, action) => ({ ...state, ...action });
 const initData = { page: 1, size: 10, total: 0, search_key: '' };
-const ObRelationRoot = (props) => {
-	const { tableData } = props;
-	const [tableState, SettableState] = useReducer(reduer, initData);
+const RomTable = (props) => {
+	const [tableState, SetTableState] = useReducer(reduer, initData);
 	const [searchValue, setSearchValue] = useState('');
 	const [deleteVisible, setDelModalVisible] = useState(false);
-	const [detailVisible, setdetailModalVisible] = useState(false);
+	const [addModalvisible, setAddModalVisible] = useState(false); // 新增弹窗
+	const [detailVisible, setdetailModalVisible] = useState(false); // 详情弹窗
 	const [optionId, setOptionId] = useState(0); // 操作的id
+	const [tableData, setTableData] = useState([]); // 表格数据
 
 	const columns = [
 		{
-			title: '名字',
-			dataIndex: 'name',
-			key: 'name',
-		},
-		{
-			title: '字段列表',
-			dataIndex: 'list',
-			key: 'list',
+			title: '数量',
+			dataIndex: 'table_number',
+			key: 'table_number',
 		},
 		{
 			title: '文件名称',
 			dataIndex: 'file_name',
 			key: 'file_name',
+		},
+		{
+			title: 'md5',
+			dataIndex: 'text_md5',
+			key: 'text_md5',
 		},
 		{
 			title: '创建时间',
@@ -65,7 +68,9 @@ const ObRelationRoot = (props) => {
 							删除
 						</span>
 						<Divider type="vertical" />
-						<span className="tool-text">下载</span>
+						<span className="tool-text" onClick={() => download(record?.id)}>
+							下载
+						</span>
 					</div>
 				);
 			},
@@ -73,45 +78,75 @@ const ObRelationRoot = (props) => {
 	];
 
 	useEffect(() => {
-		getTableData(tableState);
-	}, [tableState]);
+		getTableData({});
+	}, []);
 
 	// 获取列表数据
-	const getTableData = async ({ page = 1, size = 10, search_key = '' }) => {
+	const getTableData = async ({ page = 1, search_key = '', size = 10 }) => {
 		try {
 			const data = { page, size, search_key };
+			const res = await ormService.buildCodeList(data);
+			if (res.code === 10200) {
+				setTableData(res?.result.data);
+				SetTableState({ total: res?.result?.total });
+			}
 		} catch (err) {}
 	};
 
-	//
-	const pageChange = (page) => {
-		SettableState({ page });
+	// 切换页码
+	const pageChange = (page, size) => {
+		SetTableState({ page, size });
+		getTableData(tableState);
 	};
 
-	//
-	const handleDel = () => {};
+	//删除
+	const handleDel = async () => {
+		try {
+			const res = await ormService.buildCodeDelete({ optionId });
+			if (res?.code === 10200) {
+				message.success('删除成功');
+				setDelModalVisible(false);
+				SetTableState({ page: 1 });
+				return;
+			}
+			message.error(res?.mag);
+		} catch (err) {}
+	};
+
+	// 下载
+	const download = async (id) => {
+		try {
+			await ormService.buildCodeDownload(id);
+		} catch (err) {
+			message.error(err);
+		}
+	};
+
+	// 新建回调
+	const createCallback = () => {
+		setAddModalVisible(false);
+		SetTableState({ page: 1 });
+		getTableData(tableState);
+	};
 
 	return (
 		<div className="ormTableList">
 			<h2>ORM</h2>
 			<Divider></Divider>
 			<div className="g-align-between">
-				<Button type="primary">新建</Button>
+				<Button type="primary" onClick={() => setAddModalVisible(true)}>
+					新建
+				</Button>
 				<div className="g-flex">
 					<Input
 						suffix={<SearchOutlined />}
 						onChange={(e) => setSearchValue(e?.target?.value)}
 						onPressEnter={(e) => {
-							SettableState({ search_key: e?.target?.value });
+							SetTableState({ search_key: e?.target?.value });
 						}}
 						allowClear
 					></Input>
-					<Button
-						type="primary g-ml-2"
-						onClick={() =>
-							SettableState({ search_key: searchValue })
-						}
-					>
+					<Button type="primary g-ml-2" onClick={() => SetTableState({ search_key: searchValue })}>
 						搜索
 					</Button>
 				</div>
@@ -141,8 +176,10 @@ const ObRelationRoot = (props) => {
 			/>
 
 			<Details id={optionId} visible={detailVisible} />
+
+			<CreateModal visible={addModalvisible} onOk={createCallback} onCancel={() => setAddModalVisible(false)} />
 		</div>
 	);
 };
 
-export default ObRelationRoot;
+export default RomTable;

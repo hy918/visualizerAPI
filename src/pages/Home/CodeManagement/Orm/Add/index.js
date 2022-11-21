@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import { Button, Form, Input, message, Modal, Tag, Radio } from 'antd';
-import buildCodeService from '@/services/buildCodeService';
+import ormService from '@/services/ormService';
+
 import UploadFile from '@/components/UploadFile';
 
 import './style.less';
 
 const ModalAdd = (props) => {
 	const [form] = Form.useForm();
-	const { isModalOpen, handleCancel, ok } = props;
+	const { visible, onCancel, ok } = props;
 	const [fileOrString, setFileOrString] = useState('file');
 
 	useEffect(() => {
 		form.resetFields();
-	}, [isModalOpen]);
+	}, [visible]);
 
 	const handleOK = () => {
 		form.validateFields().then(async (values) => {
@@ -24,10 +25,10 @@ const ModalAdd = (props) => {
 					code: code || '',
 					code_file: code_file || '',
 				};
-				const res = await buildCodeService.buildCodeCreate(data);
+				const res = await ormService.buildCodeCreate(data);
 				if (res?.code === 10200) {
 					ok();
-					handleCancel();
+					onCancel();
 					return message.success('添加成功');
 				}
 				message.error(res?.msg);
@@ -52,24 +53,36 @@ const ModalAdd = (props) => {
 			<Modal
 				title="添加"
 				wrapClassName="addBuildModalRoot"
-				visible={isModalOpen}
+				visible={visible}
 				footer={null}
 				destroyOnClose={true}
 				maskClosable={false}
-				onCancel={() => handleCancel()}
+				onCancel={() => onCancel()}
 			>
 				<div className="modal-content">
 					<Form
 						form={form}
-						labelCol={{ span: 4 }}
-						wrapperCol={{ span: 20 }}
+						labelCol={{ span: 6 }}
+						wrapperCol={{ span: 18 }}
 						initialValues={{
 							code_type: fileOrString,
 						}}
 					>
 						<Form.Item
-							name="class_name"
-							label="类名"
+							name="base_jar_name"
+							label="base_jar_name"
+							rules={[
+								{
+									required: true,
+									message: '不能为空',
+								},
+							]}
+						>
+							<Input autoComplete="off"></Input>
+						</Form.Item>
+						<Form.Item
+							name="db_jar_name"
+							label="db_jar_name"
 							rules={[
 								{
 									required: true,
@@ -118,7 +131,7 @@ const ModalAdd = (props) => {
 					</Form>
 				</div>
 				<div className="modal-footer">
-					<Button onClick={() => handleCancel()}>取消</Button>
+					<Button onClick={() => onCancel()}>取消</Button>
 					<Button type="primary" className="g-ml-2" onClick={() => handleOK()}>
 						确定
 					</Button>

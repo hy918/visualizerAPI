@@ -1,14 +1,16 @@
+import React, { useState } from 'react';
 import { Tabs } from 'antd';
-import React from 'react';
-import Builder from '../Builder';
+import Builder from './Builder';
 import Copy from './copy';
 const BuilderTab = () => {
+	const [tabKeys, setTabKeys] = useState('1');
 	return (
 		<div>
 			<Tabs
 				defaultActiveKey="1"
+				activeKey={tabKeys}
 				onChange={(e) => {
-					console.log(e);
+					setTabKeys(e);
 				}}
 				items={[
 					{
