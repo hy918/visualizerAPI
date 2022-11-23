@@ -8,14 +8,11 @@ import Details from './Details';
 import ModalAdd from './Add';
 
 import './style.less';
-import ormService from "@/services/ormService";
-import buildCodeService from "@/services/buildCodeService";
 const reduer = (state, action) => ({ ...state, ...action });
 const initData = { page: 1, size: 10, total: 0, search_key: '' };
-const ObRelationRoot = (props) => {
+const RomTable = (props) => {
   const [tableData, setTableData] = useState([{ id: 1, class_name: '名字' }]); // 表格数据
-  // const { tableData,setTableData } = props;
-	const [tableState, SettableState] = useReducer(reduer, initData);
+  const [tableState, SetTableState] = useReducer(reduer, initData);
 	const [searchValue, setSearchValue] = useState('');
 	const [deleteVisible, setDelModalVisible] = useState(false);
 	const [detailVisible, setDetailModalVisible] = useState(false);
@@ -42,7 +39,7 @@ const ObRelationRoot = (props) => {
 		{
 			title: '创建时间',
 			dataIndex: 'create_time',
-			key: 'created_time',
+			key: 'create_time',
 		},
 		{
 			title: '操作',
@@ -88,16 +85,16 @@ const ObRelationRoot = (props) => {
   }, []);
 
 	// 获取列表数据
-	const getTableData = async ({ page = 1, search_key = '', size = 10 }) => {
+  const getTableData = async ({ page = 1, search_key = '', size = 10 }) => {
     try {
       const data = { page, size, search_key };
       const res = await ormService.ormCodeList(data);
       if (res.code === 10200) {
         setTableData(res?.result.data);
-        SettableState({ total: res?.result?.total });
+        SetTableState({ total: res?.result?.total });
       }
-    } catch (err) {}
-	};
+    } catch (err) {console.log(err)}
+  };
   const download = async (id) => {
     try {
       await ormService.ormCodeDownload(id);
@@ -127,11 +124,12 @@ const ObRelationRoot = (props) => {
 
   const createCallback = () => {
     setAddModalVisible(false);
-    SettableState({ page: 1 });
+    SetTableState({ page: 1 });
     getTableData(tableState);
   };
 
-	return (
+
+  return (
 		<div className="ormTableList">
 			<h2>ORM</h2>
 			<Divider></Divider>
@@ -150,7 +148,7 @@ const ObRelationRoot = (props) => {
 						type="primary g-ml-2"
 						onClick={() =>
 							// SettableState({ search_key: searchValue })
-              getTableData(tableData)
+              getTableData(tableState)
 						}
 					>
 						搜索
@@ -189,7 +187,7 @@ const ObRelationRoot = (props) => {
         ok={() => createCallback()}
       />
 
-			<CreateModal visible={addModalvisible} onOk={createCallback} onCancel={() => setAddModalVisible(false)} />
+			{/*<CreateModal visible={addModalvisible} onOk={createCallback} onCancel={() => setAddModalVisible(false)} />*/}
 		</div>
 	);
 };
