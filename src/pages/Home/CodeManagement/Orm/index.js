@@ -1,43 +1,47 @@
 import React, { useEffect, useState, useReducer } from 'react';
-import { Input, Table, Divider, Button, message } from 'antd';
+import {Input, Table, Divider, Button, message} from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
 import ormService from '@/services/ormService';
 import TipModal from '@/components/TipModal';
 import Details from './Details';
-import CreateModal from './Add';
+import ModalAdd from './Add';
 
 import './style.less';
+import ormService from "@/services/ormService";
+import buildCodeService from "@/services/buildCodeService";
 const reduer = (state, action) => ({ ...state, ...action });
 const initData = { page: 1, size: 10, total: 0, search_key: '' };
-const RomTable = (props) => {
-	const [tableState, SetTableState] = useReducer(reduer, initData);
+const ObRelationRoot = (props) => {
+  const [tableData, setTableData] = useState([{ id: 1, class_name: '名字' }]); // 表格数据
+  // const { tableData,setTableData } = props;
+	const [tableState, SettableState] = useReducer(reduer, initData);
 	const [searchValue, setSearchValue] = useState('');
 	const [deleteVisible, setDelModalVisible] = useState(false);
-	const [addModalvisible, setAddModalVisible] = useState(false); // 新增弹窗
-	const [detailVisible, setdetailModalVisible] = useState(false); // 详情弹窗
+	const [detailVisible, setDetailModalVisible] = useState(false);
 	const [optionId, setOptionId] = useState(0); // 操作的id
-	const [tableData, setTableData] = useState([]); // 表格数据
+  const [addModalvisible, setAddModalVisible] = useState(false); // 新建弹窗
 
-	const columns = [
+
+  const columns = [
 		{
-			title: '数量',
-			dataIndex: 'table_number',
-			key: 'table_number',
-		},
-		{
-			title: '文件名称',
-			dataIndex: 'file_name',
-			key: 'file_name',
-		},
-		{
-			title: 'md5',
+			title: '文本MD5',
 			dataIndex: 'text_md5',
 			key: 'text_md5',
 		},
 		{
+			title: '文件名',
+			dataIndex: 'file_name',
+			key: 'file_name',
+		},
+		{
+			title: '表数量',
+			dataIndex: 'table_number',
+			key: 'table_number',
+		},
+		{
 			title: '创建时间',
-			dataIndex: 'created_time',
+			dataIndex: 'create_time',
 			key: 'created_time',
 		},
 		{
@@ -52,7 +56,7 @@ const RomTable = (props) => {
 							className="tool-text"
 							onClick={() => {
 								setOptionId(record?.id);
-								setdetailModalVisible(true);
+                setDetailModalVisible(true);
 							}}
 						>
 							详情
@@ -68,31 +72,39 @@ const RomTable = (props) => {
 							删除
 						</span>
 						<Divider type="vertical" />
-						<span className="tool-text" onClick={() => download(record?.id)}>
-							下载
-						</span>
+						<span className="tool-text" onClick={() => download(record?.id)}>下载</span>
 					</div>
 				);
 			},
 		},
 	];
 
-	useEffect(() => {
-		getTableData({});
-	}, []);
+	// useEffect(() => {
+	// 	getTableData(tableState);
+	// }, [tableState]);
+
+  useEffect(() => {
+    getTableData({});
+  }, []);
 
 	// 获取列表数据
 	const getTableData = async ({ page = 1, search_key = '', size = 10 }) => {
-		try {
-			const data = { page, size, search_key };
-			const res = await ormService.buildCodeList(data);
-			if (res.code === 10200) {
-				setTableData(res?.result.data);
-				SetTableState({ total: res?.result?.total });
-			}
-		} catch (err) {}
+    try {
+      const data = { page, size, search_key };
+      const res = await ormService.ormCodeList(data);
+      if (res.code === 10200) {
+        setTableData(res?.result.data);
+        SettableState({ total: res?.result?.total });
+      }
+    } catch (err) {}
 	};
-
+  const download = async (id) => {
+    try {
+      await ormService.ormCodeDownload(id);
+    } catch (err) {
+      message.error(err);
+    }
+  };
 	// 切换页码
 	const pageChange = (page, size) => {
 		SetTableState({ page, size });
@@ -113,30 +125,18 @@ const RomTable = (props) => {
 		} catch (err) {}
 	};
 
-	// 下载
-	const download = async (id) => {
-		try {
-			await ormService.buildCodeDownload(id);
-		} catch (err) {
-			message.error(err);
-		}
-	};
-
-	// 新建回调
-	const createCallback = () => {
-		setAddModalVisible(false);
-		SetTableState({ page: 1 });
-		getTableData(tableState);
-	};
+  const createCallback = () => {
+    setAddModalVisible(false);
+    SettableState({ page: 1 });
+    getTableData(tableState);
+  };
 
 	return (
 		<div className="ormTableList">
 			<h2>ORM</h2>
 			<Divider></Divider>
 			<div className="g-align-between">
-				<Button type="primary" onClick={() => setAddModalVisible(true)}>
-					新建
-				</Button>
+				<Button type="primary" onClick={() => setAddModalVisible(true)}>新建</Button>
 				<div className="g-flex">
 					<Input
 						suffix={<SearchOutlined />}
@@ -146,7 +146,13 @@ const RomTable = (props) => {
 						}}
 						allowClear
 					></Input>
-					<Button type="primary g-ml-2" onClick={() => SetTableState({ search_key: searchValue })}>
+					<Button
+						type="primary g-ml-2"
+						onClick={() =>
+							// SettableState({ search_key: searchValue })
+              getTableData(tableData)
+						}
+					>
 						搜索
 					</Button>
 				</div>
@@ -175,7 +181,13 @@ const RomTable = (props) => {
 				ok={handleDel}
 			/>
 
-			<Details id={optionId} visible={detailVisible} />
+			<Details id={optionId} visible={detailVisible} editVisible={detailVisible} onCancal={() => setDetailModalVisible(false)} />
+
+      <ModalAdd
+        isModalOpen={addModalvisible}
+        handleCancel={() => setAddModalVisible(false)}
+        ok={() => createCallback()}
+      />
 
 			<CreateModal visible={addModalvisible} onOk={createCallback} onCancel={() => setAddModalVisible(false)} />
 		</div>
