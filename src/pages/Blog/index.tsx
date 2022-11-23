@@ -6,7 +6,7 @@ import _ from 'lodash';
 import HeaderContent from '@/components/HeaderContent';
 import Account from './Account';
 import ManageCenter from './Manage';
-
+import EditAticle from './Write';
 
 import { blogMenus } from './menus';
 import './index.less';
@@ -88,6 +88,7 @@ class Blog extends React.Component {
             <Routes>
               <Route path="/account/*" element={<Account />} />
               <Route path="/manage/*" element={<ManageCenter />} />
+              <Route path='/write' element={<EditAticle />} />
             </Routes>
           </Content>
         </Layout>

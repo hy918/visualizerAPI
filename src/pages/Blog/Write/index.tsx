@@ -1,9 +1,10 @@
 import React from 'react'
 
+import MyEditor from './Editer'
 export default function index() {
   return (
-    <div className='accountCenter'>
-      <h1>账户管理</h1>
+    <div>
+      <MyEditor />
     </div>
   )
 }
