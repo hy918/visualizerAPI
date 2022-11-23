@@ -13,7 +13,6 @@ type HeaderProps = {
 
 const HeaderContent = (props: HeaderProps) => {
   const { mytitle } = props;
-  // const [select, setSelect] = useState('/home/apiManage/');
 
   return (
     <div className='headerRoot'>
@@ -24,9 +23,6 @@ const HeaderContent = (props: HeaderProps) => {
             _.map(navigation, (item: any) => {
               return (
                 <Link
-                  onClick={() => {
-                    // setSelect(item.key)
-                  }}
                   to={item.key} key={item.key}
                   className={classnames('link-item', { 'selected': window.location?.pathname.includes(item?.key) })}
                 >

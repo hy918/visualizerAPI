@@ -4,6 +4,10 @@ import { Link, Routes, Route, Navigate } from 'react-router-dom';
 import _ from 'lodash';
 
 import HeaderContent from '@/components/HeaderContent';
+import Account from './Account';
+import ManageCenter from './Manage';
+
+
 import { blogMenus } from './menus';
 import './index.less';
 
@@ -82,7 +86,8 @@ class Blog extends React.Component {
           </Sider>
           <Content>
             <Routes>
-              {/* <Route path="/apiManage/*" element={<ApiManageMent />} /> */}
+              <Route path="/account/*" element={<Account />} />
+              <Route path="/manage/*" element={<ManageCenter />} />
             </Routes>
           </Content>
         </Layout>
