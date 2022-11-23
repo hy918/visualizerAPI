@@ -2,6 +2,8 @@ import React from 'react';
 import { Layout, Menu } from 'antd';
 import { Link, Routes, Route, Navigate } from 'react-router-dom';
 import _ from 'lodash';
+
+import HeaderContent from '@/components/HeaderContent';
 import ApiManageMent from './APIManagement';
 import ProcessList from './Process';
 import DataManageMent from './Table';
@@ -37,14 +39,9 @@ class Home extends React.Component {
 					style={{
 						color: '#fff',
 						fontSize: 18,
-						marginLeft: -20,
 					}}
-					className="l-header"
 				>
-					<div>后端自动化可视化工具集</div>
-					<div className="loginout">
-						<Link to="/login">退出</Link>
-					</div>
+					<HeaderContent mytitle="后端自动化可视化工具集" />
 				</Header>
 				<Layout className="site-layout">
 					<Sider trigger={null} collapsible collapsed={this.state.collapsed} style={{ background: '#fff' }}>
