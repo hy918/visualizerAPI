@@ -1,10 +1,15 @@
 import React from 'react'
 
 import MyEditor from './Editer'
-export default function index() {
+import MdEditorCommon from '@/components/MdEditor';
+import './style.less';
+const WriteArticle = () => {
   return (
-    <div>
+    <div className='writeArticleRoot'>
       <MyEditor />
+      <p>下面是markDown</p>
+      <MdEditorCommon />
     </div>
   )
 }
+export default WriteArticle;

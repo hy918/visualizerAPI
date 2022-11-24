@@ -7,6 +7,7 @@ import HeaderContent from '@/components/HeaderContent';
 import Account from './Account';
 import ManageCenter from './Manage';
 import EditAticle from './Write';
+import MAaterial from './Material';
 
 import { blogMenus } from './menus';
 import './index.less';
@@ -89,6 +90,7 @@ class Blog extends React.Component {
               <Route path="/account/*" element={<Account />} />
               <Route path="/manage/*" element={<ManageCenter />} />
               <Route path='/write' element={<EditAticle />} />
+              <Route path='/material' element={<MAaterial />} />
             </Routes>
           </Content>
         </Layout>
