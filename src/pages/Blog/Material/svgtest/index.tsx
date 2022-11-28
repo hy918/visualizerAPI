@@ -9,7 +9,7 @@ const ScorePanel = (props: { score?: number }) => {
     <div className="iq-rate-plate">
       <svg viewBox="0 0 100 65">
         {/* 环 */}
-        {/* {RANGE_POINTS.map((point, index) => {
+        {RANGE_POINTS.map((point, index) => {
           if (index === RANGE_POINTS.length - 1) return;
           const { x: x0, y: y0, color } = point;
           const { x: x1, y: y1 } = RANGE_POINTS[index + 1];
@@ -22,7 +22,7 @@ const ScorePanel = (props: { score?: number }) => {
               fill="none"
             />
           );
-        })} */}
+        })}
 
         {/* 刻度 */}
         {/* <path
@@ -31,29 +31,40 @@ const ScorePanel = (props: { score?: number }) => {
           strokeWidth="4"
           fill="none"
           strokeDasharray="0.6 5.2"
-        />
-        <path
+        /> */}
+        {/* <path
           d={`M ${SCALE_POINTS[0].x},${SCALE_POINTS[0].y} A 40,40 0 0 1 ${SCALE_POINTS[1].x},${SCALE_POINTS[1].y}`}
           stroke="#d9d9d9"
           strokeWidth="5"
           fill="none"
           strokeDasharray="1 28"
-        />*/}
+        /> */}
         {/* <path
           d={`M ${SCALE_POINTS[2].x},${SCALE_POINTS[2].y} A 40,40 0 0 0 ${SCALE_POINTS[1].x},${SCALE_POINTS[1].y}`}
           stroke="#f0f0f0"
           strokeWidth="4"
           fill="none"
           strokeDasharray="0.6 5.2"
-        />
-        <path
+        /> */}
+        {/* <path
           d={`M ${SCALE_POINTS[2].x},${SCALE_POINTS[2].y} A 40,40 0 0 0 ${SCALE_POINTS[1].x},${SCALE_POINTS[1].y}`}
           stroke="#d9d9d9"
           strokeWidth="5"
           fill="none"
           strokeDasharray="1 28"
-        /> */}
-        <path d="M 100,150 a 40 40 0 1 1 0 1 z" fill="none" stroke="black" strokeWidth="5" id="circle" />
+        />  */}
+        <path d={`M ${SCALE_POINTS[0].x},${SCALE_POINTS[0].y} A 40,40 0 1 1 ${SCALE_POINTS[2].x},${SCALE_POINTS[2].y}`}
+          fill="none"
+          stroke="#f0f0f0"
+          strokeWidth="4"
+          strokeDasharray="0.6 5.2"
+        />
+        <path d={`M ${SCALE_POINTS[0].x},${SCALE_POINTS[0].y} A 40,40 0 1 1 ${SCALE_POINTS[2].x},${SCALE_POINTS[2].y}`}
+          fill="none"
+          stroke="#f0f0f0"
+          strokeWidth="6"
+          strokeDasharray="1 28"
+        />
 
         {/* 指针 */}
         {/* <polygon points="0,0 0,6 6,3" fill="#126ee3" transform={`translate(${x}, ${y}) rotate(${angle}, 6, 3)`} /> */}
