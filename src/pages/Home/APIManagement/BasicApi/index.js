@@ -30,13 +30,17 @@ const List2 = () => {
 		getTableData({ currentPage });
 	}, [currentPage]);
 
+	useEffect(() => {
+	  getTableData({ pageSize })
+  },[pageSize])
+
 	// 关闭删除弹窗
 	const closeDelModal = () => setDelModalVisible(false);
 
 	const closeAddModal = () => setAddModalVisible(false);
 
 	// 获取列表数据
-	const getTableData = async ({ currentPage = 1, searchValue = '' }) => {
+	const getTableData = async ({ currentPage = 1, searchValue = '' ,pageSize = 10}) => {
 		const data = {
 			page: currentPage,
 			size: pageSize,
@@ -55,9 +59,11 @@ const List2 = () => {
 	};
 
 	// 换页
-	const pageChange = (page, pageSize) => {
-		setPageSize(pageSize);
-		setCurrentPage(page);
+	const pageChange = (page1, pageSize1) => {
+	  console.log('改变前',pageSize,currentPage)
+    console.log('改变后',pageSize1,page1)
+		setPageSize(pageSize1);
+		setCurrentPage(page1);
 	};
 	const columns = [
 		{
@@ -190,6 +196,7 @@ const List2 = () => {
 					pageSize: pageSize,
 					total: total,
 					onChange: pageChange,
+          onShowSizeChange:pageChange,
 					showSizeChanger: true,
 					pageSizeOptions: [10, 20, 100, 500],
 				}}

@@ -13,13 +13,15 @@ const ModalCreate = (props) => {
 			try {
 				const res = await tableApiService.importTable(values);
 				if (res?.code === 10200) {
-					// getTableData();
-					handleCancel();
+          handleCancel();
+					getTableData({});
 					return message.success('添加成功');
 				}
-				message.error(res?.msg);
+        handleCancel();
+        message.error(res?.msg);
 			} catch (err) {
-				message.error('添加失败');
+        handleCancel();
+        message.error('添加失败');
 			}
 		});
 	};

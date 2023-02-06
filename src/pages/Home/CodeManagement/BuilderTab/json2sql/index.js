@@ -3,7 +3,7 @@ import { Input, Table, Divider, Button, message } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
 import TipModal from '@/components/TipModal';
-import json2DtoService from '@/services/json2dtoService';
+import json2SqlService from '@/services/json2sqlService';
 import Details from './Details';
 import ModalAdd from './Add';
 
@@ -23,23 +23,23 @@ const BuilderRoot = (props) => {
 		{
 			title: '名字',
 			dataIndex: 'base_name',
-			key: 'base_name',
+			key: 'class_name',
       ellipsis: true,
       width: 150
 		},
 		{
 			title: '原始JSON',
 			dataIndex: 'json_code',
-			key: 'json_code',
+			key: 'fields',
       ellipsis: true,
       width: 1200
 		},
 		{
-			title: '类数量',
+			title: '不同的SQL数量',
 			dataIndex: 'class_number',
-			key: 'class_number',
+			key: 'file_name',
       ellipsis: true,
-      width: 100
+      width: 300
 		},
 		{
 			title: '创建时间',
@@ -90,7 +90,7 @@ const BuilderRoot = (props) => {
 	const getTableData = async ({ page = 1, search_key = '', size = 10 }) => {
 		try {
 			const data = { page, size, search_key };
-			const res = await json2DtoService.json2DtoCodeList(data);
+			const res = await json2SqlService.json2SqlCodeList(data);
 			if (res.code === 10200) {
 				setTableData(res?.result.data);
 				SettableState({ total: res?.result?.total });
@@ -107,7 +107,7 @@ const BuilderRoot = (props) => {
 	//删除
 	const handleDel = async () => {
 		try {
-			const res = await json2DtoService.json2DtoCodeDelete({ optionId });
+			const res = await json2SqlService.json2SqlCodeDelete({ optionId });
 			if (res?.code === 10200) {
 				message.success('删除成功');
 				setDelModalVisible(false);
@@ -121,7 +121,7 @@ const BuilderRoot = (props) => {
 	// 下载
 	const download = async (id) => {
 		try {
-			await json2DtoService.json2DtoCodeDownload(id);
+			await json2SqlService.json2SqlCodeDownload(id);
 		} catch (err) {
 			message.error(err);
 		}
@@ -136,7 +136,7 @@ const BuilderRoot = (props) => {
 
 	return (
 		<div className="buildTableList">
-			<h2>Json转层级对象</h2>
+			<h2>JSON转SQL</h2>
 			<Divider></Divider>
 			<div className="g-align-between">
 				<Button type="primary" onClick={() => setAddModalVisible(true)}>

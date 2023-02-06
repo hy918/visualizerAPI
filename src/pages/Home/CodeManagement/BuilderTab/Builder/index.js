@@ -24,16 +24,22 @@ const BuilderRoot = (props) => {
 			title: '名字',
 			dataIndex: 'class_name',
 			key: 'class_name',
+      ellipsis: true,
+      width: 150
 		},
 		{
 			title: '字段列表',
 			dataIndex: 'fields',
 			key: 'fields',
+      ellipsis: true,
+      width: 1200
 		},
 		{
 			title: '文件名称',
 			dataIndex: 'file_name',
 			key: 'file_name',
+      ellipsis: true,
+      width: 300
 		},
 		{
 			title: '创建时间',
@@ -130,7 +136,7 @@ const BuilderRoot = (props) => {
 
 	return (
 		<div className="buildTableList">
-			<h2>Builder</h2>
+			<h2>生成Builder</h2>
 			<Divider></Divider>
 			<div className="g-align-between">
 				<Button type="primary" onClick={() => setAddModalVisible(true)}>

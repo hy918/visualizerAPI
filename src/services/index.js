@@ -44,5 +44,22 @@ const API = {
 	ormCodeEdit: `${baseApi}/generatecode/orm`,
 	ormCodeDelete: `${baseApi}/generatecode/orm`,
 	ormCodeDownload: `${baseApi}/generatecode/orm/download`,
+
+  //Json转Dto
+  json2DtoCreate: `${baseApi}/generatecode/json2dto/add`,
+  json2DtoCodeList: `${baseApi}/generatecode/json2dtos`,
+  json2DtoCodeInfo: `${baseApi}/generatecode/json2dto`,
+  json2DtoCodeEdit: `${baseApi}/generatecode/json2dto`,
+  json2DtoCodeDelete: `${baseApi}/generatecode/json2dto`,
+  json2DtoCodeDownload: `${baseApi}/generatecode/json2dto/download`,
+
+  //利用Json生成SQL
+  json2SqlCreate: `${baseApi}/generatecode/json2sql/add`,
+  json2SqlCodeList: `${baseApi}/generatecode/json2sqls`,
+  json2SqlCodeInfo: `${baseApi}/generatecode/json2sql`,
+  json2SqlCodeEdit: `${baseApi}/generatecode/json2sql`,
+  json2SqlCodeDelete: `${baseApi}/generatecode/json2sql`,
+  json2SqlCodeDownload: `${baseApi}/generatecode/json2sql/download`,
+
 };
 export { API };

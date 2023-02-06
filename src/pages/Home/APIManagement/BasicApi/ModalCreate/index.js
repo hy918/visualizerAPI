@@ -12,8 +12,9 @@ const ModalCreate = (props) => {
 			try {
 				const res = await basicApiServer.basicApiAdd(values);
 				if (res?.code === 10200) {
-					getTableData();
 					handleCancel();
+          getTableData({});
+          // todo 刷新页面的功能
 					return message.success('添加成功');
 				}
 				message.error(res?.msg);

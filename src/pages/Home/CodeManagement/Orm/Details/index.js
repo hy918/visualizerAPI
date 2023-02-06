@@ -106,7 +106,7 @@ const ModalDetail = (props) => {
       title="查看"
       width={680}
       footer={null}
-      wrapClassName="builderModalRoot"
+      wrapClassName="ormModalRoot"
       maskClosable={false}
       destroyOnClose={true}
       focusTriggerAfterClose={false}

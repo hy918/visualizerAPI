@@ -8,7 +8,7 @@ import './style.less';
 
 const ModalAdd = (props) => {
   const [form] = Form.useForm();
-  const {isModalOpen, handleCancel, ok} = props;
+  const {isModalOpen, handleCancel, ok , getTableList} = props;
   const [fileOrString, setFileOrString] = useState('file');
 
   const handleOK = () => {
@@ -25,7 +25,9 @@ const ModalAdd = (props) => {
         if (res?.code === 10200) {
           ok();
           handleCancel();
-          return message.success('添加成功');
+          message.success('添加成功');
+          getTableList({})
+          return;
         }
         message.error(res?.msg);
       } catch (err) {

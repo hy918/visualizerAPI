@@ -12,8 +12,8 @@ const ModalCreate = (props) => {
 			try {
 				const res = await funcApiServer.funcApiAdd(values);
 				if (res?.code === 10200) {
-					getTableData();
 					handleCancel();
+          getTableData({});
 					return message.success('添加成功');
 				}
 				message.error(res?.msg);
